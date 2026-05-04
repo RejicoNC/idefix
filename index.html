@@ -15,6 +15,7 @@
   --ink:#1A171A;--ink-m:#5B5459;--ink-l:#9E979C;
   --bord:#E7E2E5;--bord-sf:#F3EFF2;--offwh:#FDFAF8;--sand:#F7F3F0;--wh:#fff;
   --ease:cubic-bezier(0.16,1,0.3,1);
+  --spring:cubic-bezier(0.34,1.56,0.64,1);
   --sh-sm:0 1px 4px rgba(26,23,26,.07);
   --sh-md:0 4px 18px rgba(26,23,26,.09),0 2px 6px rgba(26,23,26,.05);
   --sh-lg:0 16px 52px rgba(26,23,26,.13),0 4px 14px rgba(26,23,26,.06);
@@ -193,7 +194,8 @@ i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;fle
 .hero-title em{font-style:italic;color:var(--rose)}
 .hero-sub{font-size:clamp(15px,1.8vw,17px);color:var(--ink-m);
   max-width:460px;margin:0 auto;line-height:1.65}
-.bubbles{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1280px;margin:0 auto}
+.bubbles{display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-width:1280px;margin:0 auto}
+@media(min-width:769px){.bubbles{flex-direction:row;justify-content:center;gap:2.5rem;align-items:flex-start}}
 .bbl{border-radius:22px;overflow:hidden;cursor:pointer;position:relative;
   transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
 .bbl:hover{transform:translateY(-6px) scale(1.01)}
@@ -273,6 +275,60 @@ i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;fle
 .cat-btn:hover{transform:translateX(3px)}
 .cat-btn.r{background:var(--rose-sf);color:var(--rose)}
 .cat-btn.b{background:var(--bleu-sf);color:var(--bleu)}
+
+/* ── BULLES PILL ─────────────────────────────── */
+.bbl-pill{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0.45rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+  width:270px;height:110px;border-radius:60px;
+  position:relative;overflow:hidden;transform-style:preserve-3d;
+  transition:transform .4s var(--spring),box-shadow .4s var(--spring)
+}
+.bbl-pill:hover{transform:scale(1.08) translateY(-3px)}
+.bbl-pill:active{transform:scale(0.96) translateY(1px);transition-duration:.12s}
+.bbl-pill.rose{background:linear-gradient(135deg,var(--rose) 0%,var(--rose-dk) 100%);box-shadow:var(--sh-rose)}
+.bbl-pill.bleu{background:linear-gradient(135deg,var(--bleu) 0%,var(--bleu-dk) 100%);box-shadow:var(--sh-bleu)}
+.bbl-pill.rose:hover{box-shadow:0 14px 48px rgba(228,46,95,.45)}
+.bbl-pill.bleu:hover{box-shadow:0 14px 48px rgba(42,95,204,.42)}
+.bbl-pill-icon{font-size:1.9rem;line-height:1;pointer-events:none;
+  transition:transform .4s var(--spring)}
+.bbl-pill:hover .bbl-pill-icon{transform:scale(1.18) translateY(-2px)}
+.bbl-pill-label{font-size:1.25rem;font-weight:800;color:#fff;pointer-events:none}
+.bbl-pill-hint{font-size:0.7rem;font-weight:600;color:rgba(255,255,255,.75);pointer-events:none}
+/* idle pulse — uniquement sur bleu pour inviter à cliquer */
+@keyframes idlePulse{
+  0%,100%{box-shadow:0 8px 36px rgba(42,95,204,.24)}
+  50%{box-shadow:0 8px 48px rgba(42,95,204,.55),0 0 0 8px rgba(42,95,204,.1)}
+}
+.bbl-pill.bleu{animation:idlePulse 3s ease-in-out 1.5s infinite}
+.bbl-pill.bleu:hover{animation:none}
+/* exit/enter pour la transition main ↔ age */
+@keyframes pillExit{
+  0%{opacity:1;transform:scale(1) translateY(0)}
+  100%{opacity:0;transform:scale(.7) translateY(30px)}
+}
+@keyframes pillEnter{
+  0%{opacity:0;transform:scale(.7) translateY(30px)}
+  100%{opacity:1;transform:scale(1) translateY(0)}
+}
+.bbl-pill.anim-exit{animation:pillExit .32s var(--ease) forwards!important}
+.bbl-pill.anim-enter{animation:pillEnter .45s var(--spring) forwards!important}
+/* ripple */
+@keyframes rippleFx{
+  0%{transform:scale(0);opacity:.45}
+  100%{transform:scale(4.5);opacity:0}
+}
+.ripple-fx{
+  position:absolute;border-radius:50%;pointer-events:none;
+  background:rgba(255,255,255,.45);
+  width:80px;height:80px;margin-left:-40px;margin-top:-40px;
+  animation:rippleFx .65s var(--ease) forwards
+}
+@media(min-width:769px){
+  .bbl-pill{width:210px;height:210px;border-radius:50%}
+  .bbl-pill-label{font-size:1.45rem}
+  .bbl-pill-icon{font-size:2.8rem}
+}
 
 /* ── ATELIERS OVERVIEW ──────────────────────── */
 .atel-sec{background:var(--bleu-xs);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
@@ -487,7 +543,7 @@ i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;fle
 
 /* FOOTER */
 footer{background:var(--ink);padding:52px 80px 26px}
-.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;max-width:1280px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px;max-width:1400px}
 .ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:11px}
 .ft-logo-mark{width:32px;height:32px;background:var(--rose);border-radius:50%;
   display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -535,7 +591,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
   .pierres-grid{grid-template-columns:repeat(2,1fr)}
   .pierres-intro{grid-template-columns:1fr;gap:32px}
   .pierres-vis{display:none}
-  .ft-grid{grid-template-columns:1fr 1fr}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:28px}
   .hero,.sec{padding:48px 40px}
   .hero{padding-bottom:60px}
   .shop{grid-template-columns:1fr;padding:24px 40px}
@@ -627,8 +683,29 @@ footer{background:var(--ink);padding:52px 80px 26px}
 .bubbles-age.on{display:flex}
 .age-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%}
 .bbl-age{border-radius:22px;overflow:hidden;cursor:pointer;position:relative;
-  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
-.bbl-age:hover{transform:translateY(-6px) scale(1.01)}
+  outline:2px solid transparent;outline-offset:0;
+  transition:transform .45s var(--spring),box-shadow .45s var(--spring),outline-color .2s}
+.bbl-age:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,.28)!important;outline-color:rgba(255,255,255,.35)}
+.bbl-age:active{transform:scale(.97) translateY(2px);transition-duration:.1s}
+/* shimmer sweep au hover */
+.bbl-age::after{content:'';position:absolute;inset:0;z-index:10;pointer-events:none;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .55s ease}
+.bbl-age:hover::after{transform:translateX(100%)}
+/* icône — cible svg après init Lucide */
+.bbl-age-vis svg,.bbl-age-vis i{transition:transform .4s var(--spring)}
+.bbl-age:hover .bbl-age-vis svg,.bbl-age:hover .bbl-age-vis i{transform:scale(1.25) rotate(-8deg)}
+/* enter animation pour les cartes âge */
+@keyframes ageEnter{
+  0%{opacity:0;transform:translateY(28px) scale(.88)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes ageExit{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(20px) scale(.88)}
+}
+.bbl-age.age-anim-enter{animation:ageEnter .5s var(--spring) both}
+.bbl-age.age-anim-exit{animation:ageExit .25s var(--ease) both}
 .bbl-age-vis{height:120px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .bbl-age-body{padding:16px 20px 20px;position:relative;overflow:hidden}
 .bbl-age-body::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;
@@ -669,19 +746,22 @@ footer{background:var(--ink);padding:52px 80px 26px}
 <!-- NAV -->
 <nav class="nav" id="nav">
   <a class="nav-logo" onclick="go('home')">
-    <img src="idefix-logo.png" alt="Idéfix" style="height:40px;width:auto;display:block">
+    <img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:42px;width:auto;display:block">
   </a>
   <ul class="nav-links">
     <li><a onclick="go('home')">Accueil</a></li>
     <li>
       <a onclick="go('boutique')">Boutique <i data-lucide="chevron-down" style="width:13px;height:13px" class="chev-ic"></i></a>
-      <div class="mega">
+      <div class="mega" style="grid-template-columns:1fr 1fr 1fr;width:600px">
         <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="party-popper" style="width:16px;height:16px"></i></div><div><div class="mi-t">Faire la fête</div><div class="mi-s">Fêtes, Noël, Mariage</div></div></div>
-        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="scissors" style="width:16px;height:16px"></i></div><div><div class="mi-t">Mercerie & Création</div><div class="mi-s">Broderie, Boutons, Kits</div></div></div>
-        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="gem" style="width:16px;height:16px"></i></div><div><div class="mi-t">Apprêts & Supports</div><div class="mi-s">Perles, Boucles, Chaînes</div></div></div>
-        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="sparkles" style="width:16px;height:16px"></i></div><div><div class="mi-t">Bijoux & Cadeaux</div><div class="mi-s">Créations & réparations</div></div></div>
-        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="palette" style="width:16px;height:16px"></i></div><div><div class="mi-t">Peinture & Couleurs</div><div class="mi-s">Acrylique, Aquarelle</div></div></div>
-        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="wrench" style="width:16px;height:16px"></i></div><div><div class="mi-t">Outillage Proxxon</div><div class="mi-s">Percer, graver, poncer</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="scissors" style="width:16px;height:16px"></i></div><div><div class="mi-t">Mercerie & Couture</div><div class="mi-s">Broderie, Boutons, Kits</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="gem" style="width:16px;height:16px"></i></div><div><div class="mi-t">Bijoux & Perles</div><div class="mi-s">Apprêts, Swarovski, INOX</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="palette" style="width:16px;height:16px"></i></div><div><div class="mi-t">Peinture & Dessin</div><div class="mi-s">Acrylique, Aquarelle, Encres</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="flame" style="width:16px;height:16px"></i></div><div><div class="mi-t">Bougies & Résine</div><div class="mi-s">Savon DIY, Modelage, Fimo</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="threads" style="width:16px;height:16px"></i></div><div><div class="mi-t">Fils, Rubans & Laine</div><div class="mi-s">DMC, Macramé, Tricot</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="leaf" style="width:16px;height:16px"></i></div><div><div class="mi-t">Pandanus & Local NC</div><div class="mi-s">Bourao, Rafia, Sable naturel</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="recycle" style="width:16px;height:16px"></i></div><div><div class="mi-t">Zéro Déchet NC</div><div class="mi-s">Bee Wraps, matières locales</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="gift" style="width:16px;height:16px"></i></div><div><div class="mi-t">Bon cadeau</div><div class="mi-s">Offrir le plaisir de créer</div></div></div>
       </div>
     </li>
     <li>
@@ -813,32 +893,18 @@ footer{background:var(--ink);padding:52px 80px 26px}
   </div>
   <div class="bubbles" id="bubbles-main">
     <!-- BOUTIQUE -->
-    <div class="bbl rose rv d2" onclick="go('boutique')">
-      <div class="bbl-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=640&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Mercerie créative">
-        <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(248,197,212,0.55),rgba(240,157,184,0.6))"></div>
-        <span class="bbl-vis-text" style="position:relative;z-index:1">Mercerie · Bijoux · Perles · Arts</span>
-      </div>
-      <div class="bbl-body">
-        <div class="bbl-badge"><i data-lucide="shopping-bag" style="width:10px;height:10px"></i> BOUTIQUE</div>
-        <h2 class="bbl-title">Tous vos produits<br><em>créatifs</em></h2>
-        <p class="bbl-desc">8 000 références · Mercerie · Bijoux · Perlerie · Arts plastiques · Outillage</p>
-        <button class="bbl-cta">Explorer la boutique <i data-lucide="arrow-right" style="width:15px;height:15px"></i></button>
-      </div>
-    </div>
+    <button class="bbl-pill rose rv d2" onclick="go('boutique')">
+      <span class="bbl-pill-icon">🛍️</span>
+      <span class="bbl-pill-label">Boutique</span>
+      <span class="bbl-pill-hint">8 000 références</span>
+    </button>
     <!-- ATELIERS -->
-    <div class="bbl bleu rv d3" onclick="showAgeBubbles()">
-      <div class="bbl-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=640&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Atelier créatif">
-        <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(184,204,244,0.55),rgba(122,157,224,0.6))"></div>
-        <span class="bbl-vis-text" style="position:relative;z-index:1">Bijoux · Crochet · EVJF · Anniversaires</span>
-      </div>
-      <div class="bbl-body">
-        <div class="bbl-badge"><i data-lucide="paintbrush" style="width:10px;height:10px"></i> ATELIERS</div>
-        <h2 class="bbl-title">Créez avec nos<br><em>animatrices</em></h2>
-        <p class="bbl-desc">Bijoux · Crochet · Lithothérapie · Évènements privés · EVJF · Anniversaires</p>
-        <button class="bbl-cta">Voir les ateliers <i data-lucide="arrow-right" style="width:15px;height:15px"></i></button>
-      </div>
+    <div class="rv d3">
+      <button class="bbl-pill bleu" onclick="showAgeBubbles()">
+        <span class="bbl-pill-icon">🎨</span>
+        <span class="bbl-pill-label">Ateliers</span>
+        <span class="bbl-pill-hint" id="hint-ateliers-main">Choisir mon atelier ↓</span>
+      </button>
     </div>
   </div>
 
@@ -1124,7 +1190,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
     <div>
       <div class="ft-logo">
         <div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center">
-          <img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block">
+          <img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block">
         </div>
       </div>
       <p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans. Do it yourself !</p>
@@ -1143,7 +1209,16 @@ footer{background:var(--ink);padding:52px 80px 26px}
       <li><a><i data-lucide="info" style="width:12px;height:12px"></i>À propos</a></li>
       <li><a onclick="toast('Recrutement !')"><i data-lucide="user-plus" style="width:12px;height:12px"></i>Recrutement</a></li>
       <li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV / CGU</a></li>
+      <li><a href="mailto:commercial@idefix.nc"><i data-lucide="mail" style="width:12px;height:12px"></i>commercial@idefix.nc</a></li>
     </ul></div>
+    <div><div class="ft-col-t">Horaires</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.48);display:flex;flex-direction:column;gap:7px;margin-top:2px">
+        <div style="display:flex;justify-content:space-between;gap:16px"><span>Lun – Ven</span><span style="color:rgba(255,255,255,.75);font-weight:600">9h – 17h</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px"><span>Samedi</span><span style="color:rgba(255,255,255,.75);font-weight:600">9h – 12h</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px"><span>Dimanche</span><span style="color:rgba(255,255,255,.35)">Fermé</span></div>
+        <div style="margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.32)">6 Rue Tourville · Nouméa</div>
+      </div>
+    </div>
   </div>
   <div class="ft-bot">
     <p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX) — Tous droits réservés</p>
@@ -1173,12 +1248,17 @@ footer{background:var(--ink);padding:52px 80px 26px}
   <div class="filt">
     <div class="filt-title">Filtres</div>
     <div class="fg"><div class="fg-title">Catégories</div>
-      <button class="fo on" onclick="setF(this,'Faire la fête')"><div class="fd"></div>Faire la fête</button>
-      <button class="fo" onclick="setF(this,'Mercerie')"><div class="fd"></div>Mercerie & Création</button>
-      <button class="fo" onclick="setF(this,'Apprêts')"><div class="fd"></div>Apprêts & Supports</button>
-      <button class="fo" onclick="setF(this,'Bijoux')"><div class="fd"></div>Bijoux & Cadeaux</button>
-      <button class="fo" onclick="setF(this,'Peinture')"><div class="fd"></div>Peinture & Couleurs</button>
+      <button class="fo on" onclick="setF(this,'Tous')"><div class="fd"></div>Tous les produits</button>
+      <button class="fo" onclick="setF(this,'Bijoux')"><div class="fd"></div>Bijoux & Perles</button>
+      <button class="fo" onclick="setF(this,'Mercerie')"><div class="fd"></div>Mercerie & Couture</button>
+      <button class="fo" onclick="setF(this,'Peinture')"><div class="fd"></div>Peinture & Dessin</button>
+      <button class="fo" onclick="setF(this,'Bougies')"><div class="fd"></div>Bougies, Résine & Savon</button>
+      <button class="fo" onclick="setF(this,'Fils')"><div class="fd"></div>Fils, Rubans & Laine</button>
+      <button class="fo" onclick="setF(this,'Papier')"><div class="fd"></div>Papier & Scrapbooking</button>
+      <button class="fo" onclick="setF(this,'Local')"><div class="fd"></div>Pandanus & Local NC</button>
+      <button class="fo" onclick="setF(this,'Fete')"><div class="fd"></div>Faire la fête</button>
       <button class="fo" onclick="setF(this,'Outillage')"><div class="fd"></div>Outillage Proxxon</button>
+      <button class="fo" onclick="setF(this,'ZD')"><div class="fd"></div>Zéro Déchet NC</button>
     </div>
     <div class="fg"><div class="fg-title">Prix</div>
       <button class="fo" onclick="setF(this,'Moins de 500 F')"><div class="fd"></div>Moins de 500 F</button>
@@ -1255,10 +1335,18 @@ footer{background:var(--ink);padding:52px 80px 26px}
 </div>
 <footer>
   <div class="ft-grid">
-    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
-    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li><li><a><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li></ul></div>
-    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
-    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li></ul></div>
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li><li><a><i data-lucide="sparkles" style="width:12px;height:12px"></i>Nouveautés</a></li><li><a><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a onclick="go('ateliers')"><i data-lucide="users" style="width:12px;height:12px"></i>Évènements</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li><li><a><i data-lucide="user-plus" style="width:12px;height:12px"></i>Recrutement</a></li><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li></ul></div>
+    <div><div class="ft-col-t">Horaires</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.48);display:flex;flex-direction:column;gap:7px;margin-top:2px">
+        <div style="display:flex;justify-content:space-between;gap:12px"><span>Lun – Ven</span><span style="color:rgba(255,255,255,.75);font-weight:600">9h–17h</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px"><span>Samedi</span><span style="color:rgba(255,255,255,.75);font-weight:600">9h–12h</span></div>
+        <div style="display:flex;justify-content:space-between;gap:12px"><span>Dimanche</span><span style="color:rgba(255,255,255,.35)">Fermé</span></div>
+        <div style="margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.32)">6 Rue Tourville · Nouméa</div>
+      </div>
+    </div>
   </div>
   <div class="ft-bot"><p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX)</p><div class="ft-social"><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span></div></div>
 </footer>
@@ -1379,7 +1467,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 </div>
 <footer>
   <div class="ft-grid">
-    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
     <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
     <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
@@ -1426,7 +1514,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 </div>
 <footer>
   <div class="ft-grid">
-    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
     <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
     <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Ateliers</a></li></ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
@@ -1504,7 +1592,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 </div>
 <footer>
   <div class="ft-grid">
-    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
     <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
     <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Ateliers</a></li></ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
@@ -1516,15 +1604,59 @@ footer{background:var(--ink);padding:52px 80px 26px}
 
 // ── BULLES ÂGE ───────────────────────────────────────────────────
 function showAgeBubbles(){
-  document.getElementById('bubbles-main').style.display='none';
+  const bm=document.getElementById('bubbles-main');
   const ba=document.getElementById('bubbles-age');
-  ba.classList.add('on');
-  ba.querySelectorAll('.rv').forEach(el=>{el.classList.remove('on');setTimeout(()=>obs.observe(el),60)});
-  lucide.createIcons();
+  // animation exit sur les pills
+  bm.querySelectorAll('.bbl-pill').forEach((el,i)=>{
+    el.style.animationDelay=i*60+'ms';
+    el.classList.remove('anim-enter');
+    el.classList.add('anim-exit');
+  });
+  setTimeout(()=>{
+    bm.style.display='none';
+    bm.querySelectorAll('.bbl-pill').forEach(el=>{
+      el.classList.remove('anim-exit');el.style.animationDelay='';
+    });
+    ba.classList.add('on');
+    // entrée échelonnée des cartes âge
+    ba.querySelectorAll('.bbl-age').forEach((el,i)=>{
+      el.classList.remove('age-anim-exit','age-anim-enter');
+      el.style.animationDelay=i*75+'ms';
+      void el.offsetWidth; // reflow
+      el.classList.add('age-anim-enter');
+    });
+    ba.querySelectorAll('.rv').forEach(el=>{el.classList.remove('on');setTimeout(()=>obs.observe(el),60)});
+    lucide.createIcons();
+  },320);
 }
 function showMainBubbles(){
-  document.getElementById('bubbles-main').style.display='';
-  document.getElementById('bubbles-age').classList.remove('on');
+  const bm=document.getElementById('bubbles-main');
+  const ba=document.getElementById('bubbles-age');
+  // exit des cartes âge
+  ba.querySelectorAll('.bbl-age').forEach((el,i)=>{
+    el.classList.remove('age-anim-enter');
+    el.style.animationDelay=i*50+'ms';
+    el.classList.add('age-anim-exit');
+  });
+  setTimeout(()=>{
+    ba.classList.remove('on');
+    ba.querySelectorAll('.bbl-age').forEach(el=>{
+      el.classList.remove('age-anim-exit');el.style.animationDelay='';
+    });
+    bm.style.display='';
+    // entrée échelonnée des pills
+    bm.querySelectorAll('.bbl-pill').forEach((el,i)=>{
+      el.classList.remove('anim-exit');
+      el.style.animationDelay=i*80+'ms';
+      void el.offsetWidth;
+      el.classList.add('anim-enter');
+    });
+    setTimeout(()=>{
+      bm.querySelectorAll('.bbl-pill').forEach(el=>{
+        el.classList.remove('anim-enter');el.style.animationDelay='';
+      });
+    },600);
+  },250);
 }
 
 // ── NAV SCROLL ───────────────────────────────────────────────────
@@ -1626,8 +1758,38 @@ document.addEventListener('touchend',e=>{
 },{passive:true});
 
 // ── LUCIDE INIT ───────────────────────────────────────────────────
-// Lucide replaces <i data-lucide="..."> elements with SVG
 lucide.createIcons();
+
+// ── PILL EFFECTS : tilt 3D (desktop) + ripple ─────────────────────
+function addPillEffects(){
+  document.querySelectorAll('.bbl-pill').forEach(pill=>{
+    // ripple au clic/touch
+    pill.addEventListener('pointerdown',e=>{
+      const r=document.createElement('span');
+      r.className='ripple-fx';
+      const rect=pill.getBoundingClientRect();
+      r.style.left=(e.clientX-rect.left)+'px';
+      r.style.top=(e.clientY-rect.top)+'px';
+      pill.appendChild(r);
+      r.addEventListener('animationend',()=>r.remove());
+    });
+    // tilt 3D — seulement sur écrans larges
+    if(window.matchMedia('(min-width:769px)').matches){
+      pill.addEventListener('mousemove',e=>{
+        const rect=pill.getBoundingClientRect();
+        const cx=rect.left+rect.width/2;
+        const cy=rect.top+rect.height/2;
+        const dx=(e.clientX-cx)/(rect.width/2);
+        const dy=(e.clientY-cy)/(rect.height/2);
+        pill.style.transform=`scale(1.08) translateY(-3px) rotateY(${dx*12}deg) rotateX(${-dy*12}deg)`;
+      });
+      pill.addEventListener('mouseleave',()=>{
+        pill.style.transform='';
+      });
+    }
+  });
+}
+addPillEffects();
 </script>
 </body>
 </html>
