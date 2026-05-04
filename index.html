@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Idéfix NC — Maquette Interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<!-- Lucide Icons — SVG sprite via unpkg -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{
+  --rose:#E42E5F;--rose-dk:#B01E45;--rose-sf:#FEE4EC;--rose-xs:#FEF2F6;
+  --bleu:#2A5FCC;--bleu-dk:#1A3D8F;--bleu-sf:#E3EAFC;--bleu-xs:#F1F4FE;
+  --ink:#1A171A;--ink-m:#5B5459;--ink-l:#9E979C;
+  --bord:#E7E2E5;--bord-sf:#F3EFF2;--offwh:#FDFAF8;--sand:#F7F3F0;--wh:#fff;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --sh-sm:0 1px 4px rgba(26,23,26,.07);
+  --sh-md:0 4px 18px rgba(26,23,26,.09),0 2px 6px rgba(26,23,26,.05);
+  --sh-lg:0 16px 52px rgba(26,23,26,.13),0 4px 14px rgba(26,23,26,.06);
+  --sh-rose:0 8px 36px rgba(228,46,95,.28);
+  --sh-bleu:0 8px 36px rgba(42,95,204,.24);
+  --nav-h:64px;--bot-h:68px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--wh);color:var(--ink);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.bbl-vis img,.cat-vis img,.atel-vis img,.pcard-vis img,.afc-vis img,.icard-vis img,.pierre-vis img,.pg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:block}
+
+/* ── REVEAL ──────────────────────────────────── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rv.on{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+.rv.d4{transition-delay:.4s}.rv.d5{transition-delay:.5s}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ── NAV ─────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);
+  background:rgba(255,255,255,.97);backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--bord);display:flex;align-items:center;padding:0 40px;
+  transition:box-shadow .3s}
+.nav.scrolled{box-shadow:var(--sh-md)}
+
+/* LOGO */
+.nav-logo{display:flex;align-items:center;gap:10px;margin-right:36px;flex-shrink:0;
+  cursor:pointer;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:var(--rose);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform .35s var(--ease)}
+.nav-logo:hover .logo-mark{transform:rotate(-10deg) scale(1.08)}
+.logo-word{font-family:'DM Serif Display',serif;font-size:20px;font-style:italic;
+  color:var(--ink);letter-spacing:-.2px}
+
+/* NAV LINKS */
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;list-style:none}
+.nav-links>li{position:relative}
+.nav-links>li>a{display:flex;align-items:center;gap:5px;padding:7px 12px;
+  font-size:13px;font-weight:400;color:var(--ink-m);border-radius:8px;
+  transition:color .2s,background .2s;cursor:pointer;white-space:nowrap}
+.nav-links>li>a:hover{color:var(--ink);background:var(--sand)}
+.nav-links>li>a i[data-lucide]{opacity:.45;transition:transform .2s,opacity .2s}
+.nav-links>li:hover>a i[data-lucide]{transform:rotate(180deg);opacity:.7}
+
+/* MEGA MENU */
+.mega{position:absolute;top:calc(100% + 8px);left:0;background:var(--wh);
+  border:1px solid var(--bord);border-radius:18px;box-shadow:var(--sh-lg);
+  padding:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;
+  width:570px;opacity:0;pointer-events:none;
+  transform:translateY(-8px) scale(.97);transform-origin:top left;
+  transition:opacity .18s var(--ease),transform .18s var(--ease)}
+.nav-links>li:hover .mega{opacity:1;pointer-events:all;transform:none}
+.mega.c2{grid-template-columns:1fr 1fr;width:350px}
+.mi{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+  cursor:pointer;transition:background .15s}
+.mi:hover{background:var(--sand)}
+.mi-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;color:var(--rose)}
+.mi-ic.r{background:var(--rose-sf);color:var(--rose)}
+.mi-ic.b{background:var(--bleu-sf);color:var(--bleu)}
+.mi-t{font-size:12.5px;font-weight:700;color:var(--ink)}
+.mi-s{font-size:11px;color:var(--ink-l);margin-top:1px}
+
+/* NAV RIGHT */
+.nav-r{display:flex;align-items:center;gap:7px;margin-left:auto;flex-shrink:0}
+.nav-btn-ghost{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-l);
+  padding:7px 11px;border-radius:8px;cursor:pointer;border:none;background:transparent;
+  transition:color .2s,background .2s;white-space:nowrap}
+.nav-btn-ghost:hover{color:var(--rose);background:var(--rose-xs)}
+.nav-cart{position:relative;display:flex;align-items:center;gap:6px;font-size:13px;
+  font-weight:500;color:var(--ink-m);padding:7px 11px;border-radius:8px;cursor:pointer;
+  border:none;background:transparent;transition:color .2s,background .2s;white-space:nowrap}
+.nav-cart:hover{color:var(--ink);background:var(--sand)}
+.cbadge{position:absolute;top:2px;right:3px;min-width:15px;height:15px;padding:0 3px;
+  background:var(--rose);color:var(--wh);border-radius:20px;font-size:9px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+  transition:transform .25s var(--ease)}
+.btn-cta{background:var(--rose);color:var(--wh);font-size:13px;font-weight:500;
+  padding:8px 18px;border-radius:8px;border:none;
+  transition:background .2s,transform .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.btn-cta:hover{background:var(--rose-dk);transform:translateY(-1px)}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;
+  padding:10px;border-radius:8px;border:none;background:transparent;margin-left:auto}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--ink);
+  border-radius:2px;transition:transform .3s var(--ease),opacity .2s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ── DRAWER ──────────────────────────────────── */
+.drawer{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;background:var(--wh);
+  transform:translateX(100%);transition:transform .38s var(--ease);
+  padding:calc(var(--nav-h)+16px) 20px 20px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:2px}
+.drawer.open{transform:none}
+.dl{display:flex;align-items:center;justify-content:space-between;
+  padding:13px 14px;border-radius:12px;font-size:15px;font-weight:500;color:var(--ink);
+  cursor:pointer;border:none;background:transparent;text-align:left;width:100%;gap:8px}
+.dl:hover,.dl:active{background:var(--sand)}
+.dl-left{display:flex;align-items:center;gap:11px}
+.dl-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dl-ic.r{background:var(--rose-sf);color:var(--rose)}
+.dl-ic.b{background:var(--bleu-sf);color:var(--bleu)}
+.dl-arr{color:var(--ink-l);transition:transform .25s var(--ease);display:flex}
+.dl-sub{display:none;flex-direction:column;gap:1px;padding:2px 0 6px 12px}
+.dl-sub.open{display:flex}
+.dl-sub-item{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:10px;font-size:14px;color:var(--ink-m);cursor:pointer;
+  border:none;background:transparent;text-align:left;width:100%;
+  transition:background .15s}
+.dl-sub-item:hover,.dl-sub-item:active{background:var(--bord-sf)}
+.dl-sub-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dl-sub-ic.r{background:var(--rose-sf);color:var(--rose)}
+.dl-sub-ic.b{background:var(--bleu-sf);color:var(--bleu)}
+.dl-sep{height:1px;background:var(--bord-sf);margin:8px 0}
+.dl-cta{background:var(--rose);color:var(--wh);font-size:15px;font-weight:600;
+  padding:14px;border-radius:12px;border:none;text-align:center;margin-top:12px;
+  transition:background .2s;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+.dl-cta:hover{background:var(--rose-dk)}
+
+/* ── BOTTOM NAV ──────────────────────────────── */
+.bot-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  height:var(--bot-h);background:rgba(255,255,255,.98);backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);border-top:1px solid var(--bord);
+  padding-bottom:env(safe-area-inset-bottom)}
+.bot-nav-inner{display:grid;grid-template-columns:repeat(5,1fr);height:100%}
+.bn-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;color:var(--ink-l);border:none;background:transparent;padding:6px 4px;
+  transition:color .2s;cursor:pointer}
+.bn-item.on{color:var(--rose)}
+.bn-lbl{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+
+/* PAGE DOTS */
+.pdots{position:fixed;right:16px;top:50%;z-index:999;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:7px}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--bord);cursor:pointer;
+  transition:background .3s,transform .3s}
+.pdot.on{background:var(--rose);transform:scale(1.7)}
+
+/* ── PAGES ───────────────────────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);
+  animation:pfi .4s var(--ease)}
+.page.on{display:block}
+@media(max-width:768px){.page{padding-bottom:var(--bot-h)}}
+@keyframes pfi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── STRIP ───────────────────────────────────── */
+.strip{background:var(--rose);overflow:hidden;padding:10px 0}
+.strip.bl{background:var(--bleu)}
+.strip-track{display:flex;width:max-content;animation:mq 22s linear infinite}
+.strip-item{font-size:12px;font-weight:500;color:rgba(255,255,255,.9);
+  padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.strip-sep{opacity:.3;padding:0 4px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero{background:var(--offwh);padding:60px 80px 76px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;
+  border-radius:50%;background:radial-gradient(circle,rgba(228,46,95,.06) 0%,transparent 70%);
+  pointer-events:none}
+.hero-top{text-align:center;margin-bottom:44px}
+.eyebrow-pill{display:inline-flex;align-items:center;gap:7px;background:var(--rose-sf);
+  color:var(--rose);font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.eyebrow-dot{width:5px;height:5px;background:var(--rose);border-radius:50%;flex-shrink:0}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(36px,5.5vw,60px);
+  line-height:1.07;color:var(--ink);margin-bottom:12px}
+.hero-title em{font-style:italic;color:var(--rose)}
+.hero-sub{font-size:clamp(15px,1.8vw,17px);color:var(--ink-m);
+  max-width:460px;margin:0 auto;line-height:1.65}
+.bubbles{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1280px;margin:0 auto}
+.bbl{border-radius:22px;overflow:hidden;cursor:pointer;position:relative;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.bbl:hover{transform:translateY(-6px) scale(1.01)}
+.bbl.rose{box-shadow:var(--sh-rose)}.bbl.bleu{box-shadow:var(--sh-bleu)}
+
+/* BUBBLE VISUAL */
+.bbl-vis{height:220px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.bbl.rose .bbl-vis{background:linear-gradient(150deg,#f7c8d4 0%,#f09db8 100%)}
+.bbl.bleu .bbl-vis{background:linear-gradient(150deg,#b8ccf4 0%,#809de8 100%)}
+.bbl-vis-deco{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.bbl-vis-text{font-family:'DM Serif Display',serif;font-size:clamp(17px,2vw,22px);
+  font-style:italic;color:rgba(26,23,26,.5);position:relative;z-index:1;
+  text-align:center;padding:0 32px;line-height:1.4}
+
+.bbl-body{padding:28px 36px 32px;position:relative;overflow:hidden}
+.bbl.rose .bbl-body{background:linear-gradient(135deg,var(--rose) 0%,#c0194a 100%)}
+.bbl.bleu .bbl-body{background:linear-gradient(135deg,var(--bleu) 0%,var(--bleu-dk) 100%)}
+.bbl-body::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;
+  border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.bbl-badge{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.17);color:rgba(255,255,255,.9);
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 13px;border-radius:20px;margin-bottom:15px}
+.bbl-title{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,36px);
+  line-height:1.14;color:var(--wh);margin-bottom:10px}
+.bbl-title em{font-style:italic}
+.bbl-desc{font-size:13px;color:rgba(255,255,255,.72);line-height:1.65;
+  margin-bottom:22px;max-width:320px}
+.bbl-cta{display:inline-flex;align-items:center;gap:8px;background:var(--wh);
+  font-size:13px;font-weight:700;padding:12px 22px;border-radius:10px;border:none;
+  transition:transform .2s,gap .2s;cursor:pointer}
+.bbl.rose .bbl-cta{color:var(--rose)}.bbl.bleu .bbl-cta{color:var(--bleu)}
+.bbl-cta:hover{transform:translateX(4px);gap:13px}
+.dlv-badge{display:inline-flex;align-items:center;gap:8px;background:var(--wh);
+  border:1px solid var(--bord);color:var(--ink-m);font-size:13px;
+  padding:8px 16px;border-radius:8px;box-shadow:var(--sh-sm);margin-top:20px}
+
+/* ── SECTIONS ─────────────────────────────────── */
+.sec{padding:60px 80px;max-width:1440px;margin:0 auto}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px}
+.sec-eye{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.ebar{width:28px;height:3px;border-radius:2px}
+.ebar.r{background:var(--rose)}.ebar.b{background:var(--bleu)}
+.etxt{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.etxt.r{color:var(--rose)}.etxt.b{color:var(--bleu)}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,3vw,38px);line-height:1.14;color:var(--ink)}
+.see-all{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;
+  color:var(--rose);padding:8px 14px;border-radius:8px;
+  border:none;background:transparent;
+  transition:background .2s;cursor:pointer;white-space:nowrap;align-self:center}
+.see-all:hover{background:var(--rose-xs)}
+.see-all.b{color:var(--bleu)}.see-all.b:hover{background:var(--bleu-xs)}
+
+/* ── CAT GRID ─────────────────────────────────── */
+.cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.cat-card{border-radius:16px;overflow:hidden;cursor:pointer;position:relative;
+  background:var(--offwh);border:1px solid var(--bord-sf);
+  transition:transform .3s var(--ease),box-shadow .3s}
+.cat-card:hover{transform:translateY(-5px);box-shadow:var(--sh-md)}
+.cat-card:active{transform:scale(.97)}
+.cat-abar{position:absolute;top:0;left:0;right:0;height:3px}
+/* Cat visual */
+.cat-vis{height:110px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.cat-vis-ic{display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;border-radius:50%;background:var(--wh);
+  box-shadow:var(--sh-sm);position:relative;z-index:1;
+  transition:transform .3s var(--ease)}
+.cat-card:hover .cat-vis-ic{transform:scale(1.1) rotate(-6deg)}
+.cat-body{padding:12px 13px 11px}
+.cat-name{font-family:'DM Serif Display',serif;font-size:13px;color:var(--ink);margin-bottom:2px}
+.cat-sub{font-size:10.5px;color:var(--ink-l);line-height:1.4;margin-bottom:9px}
+.cat-btn{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;
+  border:none;cursor:pointer;transition:transform .2s;
+  display:inline-flex;align-items:center;gap:4px}
+.cat-btn:hover{transform:translateX(3px)}
+.cat-btn.r{background:var(--rose-sf);color:var(--rose)}
+.cat-btn.b{background:var(--bleu-sf);color:var(--bleu)}
+
+/* ── ATELIERS OVERVIEW ──────────────────────── */
+.atel-sec{background:var(--bleu-xs);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.atel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.atel-card{background:var(--wh);border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.atel-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.atel-card:active{transform:scale(.97)}
+.atel-vis{height:180px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.atel-bar{height:3px}
+.atel-body{padding:20px}
+.atel-name{font-family:'DM Serif Display',serif;font-size:17px;margin-bottom:7px}
+.atel-desc{font-size:13px;color:var(--ink-m);line-height:1.6;margin-bottom:12px}
+.atag{display:inline-flex;align-items:center;gap:5px;
+  background:var(--bleu-sf);color:var(--bleu);
+  font-size:11px;font-weight:700;letter-spacing:.6px;padding:5px 12px;border-radius:20px}
+
+/* ── PRO ─────────────────────────────────────── */
+.pro{background:linear-gradient(135deg,var(--rose) 0%,#c0194a 100%);
+  padding:68px 80px;position:relative;overflow:hidden}
+.pro::before{content:'';position:absolute;top:-100px;right:-80px;width:420px;height:420px;
+  border-radius:50%;background:rgba(255,255,255,.07)}
+.pro-inner{max-width:1280px;margin:0 auto;display:grid;
+  grid-template-columns:1fr auto;gap:60px;align-items:center;position:relative;z-index:1}
+.pro-eye{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:12px}
+.pro-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,3vw,38px);
+  color:var(--wh);line-height:1.2;margin-bottom:11px}
+.pro-desc{font-size:14px;color:rgba(255,255,255,.72);max-width:500px;line-height:1.65}
+.pro-acts{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.btn-wh{background:var(--wh);color:var(--rose);font-size:14px;font-weight:700;
+  padding:12px 24px;border-radius:8px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;
+  transition:transform .2s,box-shadow .2s}
+.btn-wh:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.btn-owh{background:transparent;color:var(--wh);font-size:14px;font-weight:500;
+  padding:12px 20px;border-radius:8px;border:1.5px solid rgba(255,255,255,.38);cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;
+  transition:background .2s,border-color .2s}
+.btn-owh:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65)}
+.pro-perks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pro-perk{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;padding:13px 16px;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.88);display:flex;align-items:center;gap:10px;
+  transition:background .2s}
+.pro-perk:hover{background:rgba(255,255,255,.17)}
+.pro-perk-ic{color:rgba(255,255,255,.75);flex-shrink:0}
+
+/* ── INFOS ───────────────────────────────────── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:start}
+.info-card{background:var(--offwh);border:1px solid var(--bord);border-radius:16px;
+  padding:22px 26px;position:relative;overflow:hidden}
+.info-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
+.info-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.info-lbl.r{color:var(--rose)}.info-lbl.b{color:var(--bleu)}
+.h-row{display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--bord-sf);font-size:13.5px}
+.h-row:last-child{border-bottom:none}
+.h-day{color:var(--ink-m)}.h-time{font-weight:700}.h-cl{color:var(--ink-l)}
+.info-addr{font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:4px;line-height:1.3}
+.info-city{font-size:13px;color:var(--ink-m);margin-bottom:12px}
+.info-div{height:1px;background:var(--bord-sf);margin:10px 0}
+.info-ct{font-size:13px;color:var(--ink-m);display:flex;flex-direction:column;gap:6px}
+.info-ct a{color:var(--rose);font-weight:500;display:flex;align-items:center;gap:7px}
+.dlv-card{background:var(--rose-sf);border:1px solid rgba(228,46,95,.14);
+  border-radius:16px;padding:22px 18px;display:flex;flex-direction:column;
+  align-items:center;text-align:center;gap:5px;width:128px}
+.dlv-ic{color:var(--rose);margin-bottom:2px}
+.dlv-t{font-family:'DM Serif Display',serif;font-size:14px;color:var(--ink);margin-top:2px}
+.dlv-s{font-size:10px;color:var(--rose);font-weight:700}
+
+/* ── ZERO DECHET ─────────────────────────────── */
+.zd{background:var(--bleu-xs);border-top:2px solid var(--bleu);
+  padding:22px 80px;display:flex;align-items:center;gap:18px}
+.zd-content{flex:1}
+.zd-ttl{font-size:14px;font-weight:700;color:var(--bleu);margin-bottom:3px}
+.zd-desc{font-size:13px;color:var(--ink-m)}
+.btn-bl{background:var(--bleu);color:var(--wh);font-size:13px;font-weight:500;
+  padding:10px 18px;border-radius:8px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:background .2s,transform .15s;white-space:nowrap;flex-shrink:0}
+.btn-bl:hover{background:var(--bleu-dk);transform:translateY(-1px)}
+
+/* ── PAGE HERO ───────────────────────────────── */
+.ph{padding:44px 80px 56px;position:relative;overflow:hidden}
+.ph.r{background:linear-gradient(135deg,var(--rose-sf) 0%,var(--rose-xs) 100%)}
+.ph.b{background:linear-gradient(135deg,var(--bleu-sf) 0%,var(--bleu-xs) 100%)}
+.ph.vi{background:linear-gradient(135deg,#F3E5F5,#EDE7F6)}
+.ph-inner{max-width:1280px;margin:0 auto}
+.ph-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4.5vw,50px);
+  line-height:1.1;margin-bottom:10px}
+.ph-title em.r{color:var(--rose)}.ph-title em.b{color:var(--bleu)}.ph-title em.v{color:#7B1FA2}
+.ph-desc{font-size:15px;color:var(--ink-m);max-width:460px;line-height:1.65}
+
+/* ── SHOP ────────────────────────────────────── */
+.shop{display:grid;grid-template-columns:210px 1fr;gap:28px;
+  padding:36px 80px;max-width:1440px;margin:0 auto}
+.filt{position:sticky;top:calc(var(--nav-h)+12px);height:fit-content}
+.filt-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:18px}
+.fg{margin-bottom:20px}
+.fg-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--ink-l);margin-bottom:8px}
+.fo{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;
+  cursor:pointer;font-size:13px;color:var(--ink-m);
+  border:none;background:transparent;width:100%;text-align:left;
+  transition:background .15s,color .15s;user-select:none}
+.fo:hover{background:var(--sand);color:var(--ink)}
+.fo.on{background:var(--rose-sf);color:var(--rose);font-weight:500}
+.fd{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--bord);
+  flex-shrink:0;transition:background .15s,border-color .15s}
+.fo.on .fd{background:var(--rose);border-color:var(--rose)}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pcard{background:var(--wh);border:1px solid var(--bord-sf);border-radius:16px;
+  overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s}
+.pcard:hover{transform:translateY(-5px);box-shadow:var(--sh-md)}
+.pcard:active{transform:scale(.97)}
+.pcard-vis{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.pcard-vis::after{content:'Voir';position:absolute;inset:0;
+  background:rgba(26,23,26,.38);color:var(--wh);font-size:13px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.pcard:hover .pcard-vis::after{opacity:1}
+.pcard-body{padding:13px 15px 15px}
+.pcard-name{font-family:'DM Serif Display',serif;font-size:14px;margin-bottom:3px}
+.pcard-cat{font-size:11px;color:var(--ink-l);margin-bottom:9px;
+  display:flex;align-items:center;gap:5px}
+.pcard-ft{display:flex;align-items:center;justify-content:space-between}
+.pcard-price{font-size:15px;font-weight:700;color:var(--rose)}
+.btn-add{background:var(--rose);color:var(--wh);font-size:12px;font-weight:600;
+  padding:7px 13px;border-radius:8px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:background .2s,transform .15s}
+.btn-add:hover{background:var(--rose-dk);transform:scale(1.04)}
+
+/* ── ATELIERS FULL ───────────────────────────── */
+.atel-full-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.afc{background:var(--wh);border:1px solid var(--bord);border-radius:20px;
+  overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s}
+.afc:hover{transform:translateY(-5px);box-shadow:var(--sh-bleu)}
+.afc:active{transform:scale(.98)}
+.afc-vis{height:200px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.afc-body{padding:22px 26px}
+.afc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;letter-spacing:.6px;padding:4px 10px;border-radius:20px}
+.tag.b{background:var(--bleu-sf);color:var(--bleu)}.tag.r{background:var(--rose-sf);color:var(--rose)}
+.afc-name{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px}
+.afc-desc{font-size:13px;color:var(--ink-m);line-height:1.65;margin-bottom:14px}
+.afc-ft{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.afc-price{font-size:14px;font-weight:700}
+.btn-res{background:var(--bleu);color:var(--wh);font-size:13px;font-weight:600;
+  padding:10px 20px;border-radius:8px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:background .2s,transform .15s}
+.btn-res:hover{background:var(--bleu-dk);transform:translateY(-1px)}
+.btn-res.r{background:var(--rose)}.btn-res.r:hover{background:var(--rose-dk)}
+
+/* CAL */
+.cal-wrap{margin:0 80px}
+.cal-strip{background:var(--bleu-xs);border:1px solid var(--bord);border-radius:18px;padding:24px 26px}
+.cal-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:14px;
+  display:flex;align-items:center;gap:9px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cd{text-align:center;padding:7px 4px;border-radius:8px;cursor:pointer;transition:background .15s}
+.cd-n{font-weight:700;color:var(--ink-l);margin-bottom:4px;font-size:10px;text-transform:uppercase}
+.cd-d{font-size:13px;font-weight:500}
+.cd:hover{background:var(--wh)}.cd.ev{background:var(--bleu-sf)}.cd.ev .cd-d{color:var(--bleu);font-weight:700}
+.cd.tod{background:var(--bleu)}.cd.tod .cd-d{color:var(--wh);font-weight:700}.cd.tod .cd-n{color:rgba(255,255,255,.65)}
+
+/* IDEAS */
+.ideas{columns:3;gap:18px;padding:36px 80px}
+.icard{break-inside:avoid;margin-bottom:18px;background:var(--wh);
+  border:1px solid var(--bord);border-radius:16px;overflow:hidden;cursor:pointer;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.icard:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.icard-vis{display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.icard-vis.tall{height:220px}.icard-vis.sh{height:155px}
+.icard-body{padding:15px 18px}
+.icard-tags{display:flex;gap:5px;margin-bottom:8px}
+.icard-title{font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:6px}
+.icard-desc{font-size:13px;color:var(--ink-m);line-height:1.55}
+.icard-read{display:inline-flex;align-items:center;gap:5px;font-size:12px;
+  font-weight:700;color:var(--rose);margin-top:10px}
+
+/* PIERRES */
+.pierres-intro{padding:36px 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.pierre-colors{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.pcol{width:36px;height:36px;border-radius:50%;cursor:pointer;border:2px solid transparent;
+  flex-shrink:0;transition:transform .25s var(--ease),border-color .2s}
+.pcol:hover{transform:scale(1.18);border-color:var(--ink)}
+.pcol-sw{width:100%;height:100%;border-radius:50%}
+.pierres-vis{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pg{aspect-ratio:1;border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.pg:hover{transform:rotate(-3deg) scale(1.05);box-shadow:var(--sh-md)}
+.pg:nth-child(2){margin-top:18px}.pg:nth-child(3){margin-top:-18px}
+.pg-vis{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.pierres-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:0 80px 60px}
+.pierre-card{background:var(--wh);border:1px solid var(--bord-sf);border-radius:16px;
+  overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s}
+.pierre-card:hover{transform:translateY(-5px);box-shadow:var(--sh-md)}
+.pierre-card:active{transform:scale(.97)}
+.pierre-vis{height:140px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.pierre-body{padding:13px 15px 15px;text-align:center}
+.pierre-name{font-family:'DM Serif Display',serif;font-size:15px;margin-bottom:4px}
+.pierre-virtue{font-size:11px;color:var(--ink-l);line-height:1.5}
+
+/* FOOTER */
+footer{background:var(--ink);padding:52px 80px 26px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;max-width:1280px}
+.ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.ft-logo-mark{width:32px;height:32px;background:var(--rose);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ft-logo-word{font-family:'DM Serif Display',serif;font-size:19px;color:var(--wh);font-style:italic}
+.ft-tag{font-size:13px;color:rgba(255,255,255,.38);line-height:1.65;max-width:230px}
+.ft-col-t{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.28);margin-bottom:12px;padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,.08)}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ft-links a{font-size:13px;color:rgba(255,255,255,.48);transition:color .2s;cursor:pointer;
+  display:flex;align-items:center;gap:7px}
+.ft-links a:hover{color:rgba(255,255,255,.9)}
+.ft-bot{display:flex;align-items:center;justify-content:space-between;
+  padding-top:18px;border-top:1px solid rgba(255,255,255,.09);max-width:1280px;flex-wrap:wrap;gap:10px}
+.ft-copy{font-size:12px;color:rgba(255,255,255,.28)}
+.ft-social{display:flex;gap:7px}
+.spill{font-size:12px;color:rgba(255,255,255,.48);padding:6px 13px;border-radius:20px;
+  border:1px solid rgba(255,255,255,.13);cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;
+  transition:color .2s,border-color .2s,background .2s}
+.spill:hover{color:var(--wh);border-color:rgba(255,255,255,.38);background:rgba(255,255,255,.06)}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(var(--bot-h)+14px);right:18px;z-index:8000;
+  background:var(--ink);color:var(--wh);padding:11px 18px;border-radius:12px;
+  font-size:13px;font-weight:500;box-shadow:var(--sh-lg);
+  display:flex;align-items:center;gap:8px;
+  transform:translateY(80px);opacity:0;pointer-events:none;
+  transition:transform .38s var(--ease),opacity .3s;max-width:calc(100vw - 36px)}
+.toast.show{transform:none;opacity:1}
+@media(min-width:769px){.toast{bottom:26px;right:26px}}
+
+/* ══════════ RESPONSIVE ══════════ */
+@media(max-width:1100px){
+  .nav{padding:0 24px}
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .bubbles{grid-template-columns:1fr}
+  .bbl-vis{height:200px}
+  .pro-inner{grid-template-columns:1fr;gap:28px}
+  .pro-perks{grid-template-columns:repeat(4,1fr)}
+  .info-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .dlv-card{grid-column:span 2;flex-direction:row;width:100%;justify-content:flex-start;gap:14px;padding:14px 22px}
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .atel-full-grid{grid-template-columns:1fr}
+  .pierres-grid{grid-template-columns:repeat(2,1fr)}
+  .pierres-intro{grid-template-columns:1fr;gap:32px}
+  .pierres-vis{display:none}
+  .ft-grid{grid-template-columns:1fr 1fr}
+  .hero,.sec{padding:48px 40px}
+  .hero{padding-bottom:60px}
+  .shop{grid-template-columns:1fr;padding:24px 40px}
+  .filt{position:static;display:flex;flex-wrap:wrap;gap:6px}
+  .filt-title{width:100%;margin-bottom:0}
+  .fg{margin-bottom:0;display:contents}
+  .fg-title{display:none}
+  .fo{padding:6px 12px;border-radius:20px;width:auto;
+    background:var(--offwh);border:1px solid var(--bord);color:var(--ink-m)}
+  .fo.on{background:var(--rose-sf);color:var(--rose)}
+  .fo .fd{display:none}
+  .ideas{columns:2}
+  .cal-wrap{margin:0 40px}
+  .pierres-intro,.pierres-grid{padding-left:40px;padding-right:40px}
+  .zd{padding:20px 40px}
+  .pro,.ph{padding-left:40px;padding-right:40px}
+}
+
+@media(max-width:768px){
+  :root{--nav-h:58px;--bot-h:64px}
+  .nav{padding:0 16px}
+  .nav-links,.nav-r,.pdots{display:none}
+  .hamburger{display:flex}
+  .bot-nav{display:block}
+  .hero{padding:28px 16px 44px}
+  .hero::before{display:none}
+  .hero-top{margin-bottom:26px}
+  .bubbles{grid-template-columns:1fr;gap:12px}
+  .bbl-vis{height:180px}
+  .bbl-body{padding:22px 22px 26px}
+  .bbl-title{font-size:24px}
+  .bbl-desc{font-size:12px;margin-bottom:18px;max-width:100%}
+  .sec{padding:30px 16px}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:22px}
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:9px}
+  .cat-vis{height:88px}
+  .cat-sub{display:none}
+  .atel-sec .sec{padding:26px 16px}
+  .atel-grid{grid-template-columns:1fr;gap:12px}
+  .atel-vis{height:160px}
+  .pro{padding:36px 16px}
+  .pro-inner{grid-template-columns:1fr;gap:20px}
+  .pro-title{font-size:24px}
+  .pro-perks{grid-template-columns:1fr 1fr;gap:7px}
+  .pro-perk{font-size:12px;padding:11px 12px}
+  .pro-acts{flex-direction:column}
+  .btn-wh,.btn-owh{width:100%;justify-content:center}
+  .info-grid{grid-template-columns:1fr;gap:10px}
+  .dlv-card{grid-column:auto;flex-direction:row;width:100%;justify-content:flex-start;gap:12px;padding:13px 18px}
+  .zd{padding:16px 16px;flex-wrap:wrap;gap:10px}
+  .btn-bl{width:100%;justify-content:center}
+  .ph{padding:28px 16px 40px}
+  .shop{grid-template-columns:1fr;padding:12px 16px 24px;gap:12px}
+  .filt{overflow-x:auto;display:flex;flex-wrap:nowrap;gap:6px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .filt::-webkit-scrollbar{display:none}
+  .filt-title,.fg-title{display:none}
+  .fg{display:contents}
+  .fo{flex-shrink:0;width:auto;padding:7px 13px;border-radius:20px;
+    background:var(--offwh);border:1px solid var(--bord);color:var(--ink-m)}
+  .fo.on{background:var(--rose-sf);color:var(--rose);border-color:transparent}
+  .fo .fd{display:none}
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .atel-full-grid{grid-template-columns:1fr;gap:14px}
+  .afc-vis{height:180px}
+  .cal-wrap{margin:0 16px}
+  .cal-strip{padding:18px 14px;border-radius:14px}
+  .cd-n{font-size:9px}.cd-d{font-size:12px}.cd{padding:6px 3px}
+  .ideas{columns:1;padding:14px 16px 22px}
+  .icard-vis.tall{height:190px}.icard-vis.sh{height:140px}
+  .pierres-intro{grid-template-columns:1fr;padding:22px 16px;gap:0}
+  .pierres-vis{display:none}
+  .pcol{width:32px;height:32px}
+  .pierres-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 44px}
+  .pierre-vis{height:120px}
+  footer{padding:36px 16px 18px}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+  .ft-tag{display:none}
+  .ft-bot{flex-direction:column;align-items:flex-start;gap:8px}
+  .strip-item{font-size:11px;padding:0 14px}
+}
+@media(max-width:380px){
+  .prod-grid,.pierres-grid{grid-template-columns:1fr}
+  .cat-grid{gap:8px}
+  .bubbles{gap:9px}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast">
+  <i data-lucide="check-circle" style="width:15px;height:15px;color:var(--rose)"></i>
+  <span id="t-msg"></span>
+</div>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" onclick="go('home')">
+    <img src="idefix-logo.png" alt="Idéfix" style="height:40px;width:auto;display:block">
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="go('home')">Accueil</a></li>
+    <li>
+      <a onclick="go('boutique')">Boutique <i data-lucide="chevron-down" style="width:13px;height:13px" class="chev-ic"></i></a>
+      <div class="mega">
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="party-popper" style="width:16px;height:16px"></i></div><div><div class="mi-t">Faire la fête</div><div class="mi-s">Fêtes, Noël, Mariage</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="scissors" style="width:16px;height:16px"></i></div><div><div class="mi-t">Mercerie & Création</div><div class="mi-s">Broderie, Boutons, Kits</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="gem" style="width:16px;height:16px"></i></div><div><div class="mi-t">Apprêts & Supports</div><div class="mi-s">Perles, Boucles, Chaînes</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="sparkles" style="width:16px;height:16px"></i></div><div><div class="mi-t">Bijoux & Cadeaux</div><div class="mi-s">Créations & réparations</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic r"><i data-lucide="palette" style="width:16px;height:16px"></i></div><div><div class="mi-t">Peinture & Couleurs</div><div class="mi-s">Acrylique, Aquarelle</div></div></div>
+        <div class="mi" onclick="go('boutique')"><div class="mi-ic b"><i data-lucide="wrench" style="width:16px;height:16px"></i></div><div><div class="mi-t">Outillage Proxxon</div><div class="mi-s">Percer, graver, poncer</div></div></div>
+      </div>
+    </li>
+    <li>
+      <a onclick="go('ateliers')">Ateliers & Évènements <i data-lucide="chevron-down" style="width:13px;height:13px" class="chev-ic"></i></a>
+      <div class="mega c2">
+        <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="users" style="width:16px;height:16px"></i></div><div><div class="mi-t">Ateliers adultes</div><div class="mi-s">Dextérité & créativité</div></div></div>
+        <div class="mi" onclick="go('ateliers')"><div class="mi-ic b"><i data-lucide="book-open" style="width:16px;height:16px"></i></div><div><div class="mi-t">Activités mercredi</div><div class="mi-s">Chaque semaine une idée</div></div></div>
+        <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="cake" style="width:16px;height:16px"></i></div><div><div class="mi-t">Anniversaires</div><div class="mi-s">Privatisation boutique</div></div></div>
+        <div class="mi" onclick="go('ateliers')"><div class="mi-ic b"><i data-lucide="glass-water" style="width:16px;height:16px"></i></div><div><div class="mi-t">Vos évènements</div><div class="mi-s">EVJF, baby-shower…</div></div></div>
+      </div>
+    </li>
+    <li><a onclick="go('idees')">Idées créatives</a></li>
+    <li><a onclick="go('pierres')">Les pierres</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="nav-btn-ghost" title="Envies">
+      <i data-lucide="heart" style="width:16px;height:16px"></i> Envies
+    </button>
+    <button class="nav-cart" title="Panier">
+      <i data-lucide="shopping-bag" style="width:16px;height:16px"></i> Panier
+      <span class="cbadge" id="cbadge">0</span>
+    </button>
+    <button class="btn-cta" onclick="toast('Connexion simulée !')">
+      <i data-lucide="log-in" style="width:14px;height:14px"></i> Se connecter
+    </button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <button class="dl" onclick="go('home');toggleDrawer()">
+    <span class="dl-left"><div class="dl-ic r"><i data-lucide="home" style="width:15px;height:15px"></i></div>Accueil</span>
+    <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr"></i>
+  </button>
+  <button class="dl" onclick="toggleSub('sb','arr-b')">
+    <span class="dl-left"><div class="dl-ic b"><i data-lucide="shopping-bag" style="width:15px;height:15px"></i></div>Boutique</span>
+    <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr" id="arr-b"></i>
+  </button>
+  <div class="dl-sub" id="sb">
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="party-popper" style="width:13px;height:13px"></i></div>Faire la fête</button>
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="scissors" style="width:13px;height:13px"></i></div>Mercerie & Création</button>
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="gem" style="width:13px;height:13px"></i></div>Apprêts & Supports</button>
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="sparkles" style="width:13px;height:13px"></i></div>Bijoux & Cadeaux</button>
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="palette" style="width:13px;height:13px"></i></div>Peinture & Couleurs</button>
+    <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="wrench" style="width:13px;height:13px"></i></div>Outillage Proxxon</button>
+  </div>
+  <button class="dl" onclick="toggleSub('sa','arr-a')">
+    <span class="dl-left"><div class="dl-ic r"><i data-lucide="paintbrush" style="width:15px;height:15px"></i></div>Ateliers & Évènements</span>
+    <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr" id="arr-a"></i>
+  </button>
+  <div class="dl-sub" id="sa">
+    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="users" style="width:13px;height:13px"></i></div>Ateliers adultes</button>
+    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="book-open" style="width:13px;height:13px"></i></div>Activités mercredi</button>
+    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="cake" style="width:13px;height:13px"></i></div>Anniversaires</button>
+    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="glass-water" style="width:13px;height:13px"></i></div>Vos évènements</button>
+  </div>
+  <button class="dl" onclick="go('idees');toggleDrawer()">
+    <span class="dl-left"><div class="dl-ic b"><i data-lucide="lightbulb" style="width:15px;height:15px"></i></div>Idées créatives</span>
+    <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr"></i>
+  </button>
+  <button class="dl" onclick="go('pierres');toggleDrawer()">
+    <span class="dl-left"><div class="dl-ic r"><i data-lucide="diamond" style="width:15px;height:15px"></i></div>Les pierres</span>
+    <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr"></i>
+  </button>
+  <div class="dl-sep"></div>
+  <button class="dl"><span class="dl-left"><i data-lucide="heart" style="width:15px;height:15px;color:var(--ink-l)"></i>Liste d'envies</span></button>
+  <button class="dl"><span class="dl-left"><i data-lucide="shopping-bag" style="width:15px;height:15px;color:var(--ink-l)"></i>Mon panier</span>
+    <span id="cdb" style="background:var(--rose);color:white;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700">0</span>
+  </button>
+  <button class="dl-cta" onclick="toast('Connexion simulée !');toggleDrawer()">
+    <i data-lucide="log-in" style="width:15px;height:15px"></i> Se connecter
+  </button>
+</div>
+
+<!-- PAGE DOTS -->
+<div class="pdots">
+  <div class="pdot on" onclick="go('home')" title="Accueil"></div>
+  <div class="pdot" onclick="go('boutique')" title="Boutique"></div>
+  <div class="pdot" onclick="go('ateliers')" title="Ateliers"></div>
+  <div class="pdot" onclick="go('idees')" title="Idées"></div>
+  <div class="pdot" onclick="go('pierres')" title="Pierres"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
+  <div class="bot-nav-inner">
+    <button class="bn-item on" id="bn-home" onclick="go('home')">
+      <i data-lucide="home" style="width:22px;height:22px"></i><span class="bn-lbl">Accueil</span>
+    </button>
+    <button class="bn-item" id="bn-boutique" onclick="go('boutique')">
+      <i data-lucide="shopping-bag" style="width:22px;height:22px"></i><span class="bn-lbl">Boutique</span>
+    </button>
+    <button class="bn-item" id="bn-ateliers" onclick="go('ateliers')">
+      <i data-lucide="paintbrush" style="width:22px;height:22px"></i><span class="bn-lbl">Ateliers</span>
+    </button>
+    <button class="bn-item" id="bn-idees" onclick="go('idees')">
+      <i data-lucide="lightbulb" style="width:22px;height:22px"></i><span class="bn-lbl">Idées</span>
+    </button>
+    <button class="bn-item" id="bn-pierres" onclick="go('pierres')">
+      <i data-lucide="diamond" style="width:22px;height:22px"></i><span class="bn-lbl">Pierres</span>
+    </button>
+  </div>
+</nav>
+<!-- ══ PAGE ACCUEIL ══ -->
+<div class="page on" id="p-home">
+<!-- STRIP -->
+<div class="strip"><div class="strip-track">
+  <span class="strip-item"><i data-lucide="truck" style="width:12px;height:12px"></i> Livraison gratuite dès 6 000 F CFP</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="leaf" style="width:12px;height:12px"></i> Zéro Déchet Nouvelle-Calédonie</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="credit-card" style="width:12px;height:12px"></i> Tarifs Pro disponibles</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="gift" style="width:12px;height:12px"></i> Ateliers tous niveaux</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="map-pin" style="width:12px;height:12px"></i> 6 Rue Tourville · Nouméa</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="truck" style="width:12px;height:12px"></i> Livraison gratuite dès 6 000 F CFP</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="leaf" style="width:12px;height:12px"></i> Zéro Déchet Nouvelle-Calédonie</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="credit-card" style="width:12px;height:12px"></i> Tarifs Pro disponibles</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="gift" style="width:12px;height:12px"></i> Ateliers tous niveaux</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="map-pin" style="width:12px;height:12px"></i> 6 Rue Tourville · Nouméa</span><span class="strip-item strip-sep">·</span>
+</div></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top rv">
+    <div class="eyebrow-pill"><span class="eyebrow-dot"></span>Nouméa · Nouvelle-Calédonie · Depuis 1983</div>
+    <h1 class="hero-title">Que cherchez-<em>vous</em>&nbsp;?</h1>
+    <p class="hero-sub">Explorez 8 000 références ou réservez un atelier créatif</p>
+  </div>
+  <div class="bubbles">
+    <!-- BOUTIQUE -->
+    <div class="bbl rose rv d2" onclick="go('boutique')">
+      <div class="bbl-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=640&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Mercerie créative">
+        <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(248,197,212,0.55),rgba(240,157,184,0.6))"></div>
+        <span class="bbl-vis-text" style="position:relative;z-index:1">Mercerie · Bijoux · Perles · Arts</span>
+      </div>
+      <div class="bbl-body">
+        <div class="bbl-badge"><i data-lucide="shopping-bag" style="width:10px;height:10px"></i> BOUTIQUE</div>
+        <h2 class="bbl-title">Tous vos produits<br><em>créatifs</em></h2>
+        <p class="bbl-desc">8 000 références · Mercerie · Bijoux · Perlerie · Arts plastiques · Outillage</p>
+        <button class="bbl-cta">Explorer la boutique <i data-lucide="arrow-right" style="width:15px;height:15px"></i></button>
+      </div>
+    </div>
+    <!-- ATELIERS -->
+    <div class="bbl bleu rv d3" onclick="go('ateliers')">
+      <div class="bbl-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=640&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Atelier créatif">
+        <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(184,204,244,0.55),rgba(122,157,224,0.6))"></div>
+        <span class="bbl-vis-text" style="position:relative;z-index:1">Bijoux · Crochet · EVJF · Anniversaires</span>
+      </div>
+      <div class="bbl-body">
+        <div class="bbl-badge"><i data-lucide="paintbrush" style="width:10px;height:10px"></i> ATELIERS</div>
+        <h2 class="bbl-title">Créez avec nos<br><em>animatrices</em></h2>
+        <p class="bbl-desc">Bijoux · Crochet · Lithothérapie · Évènements privés · EVJF · Anniversaires</p>
+        <button class="bbl-cta">Voir les ateliers <i data-lucide="arrow-right" style="width:15px;height:15px"></i></button>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:20px" class="rv d4">
+    <div class="dlv-badge"><i data-lucide="truck" style="width:14px;height:14px"></i> Livraison gratuite dès 6 000 F CFP — Grande Terre &amp; Îles</div>
+  </div>
+</div>
+
+<!-- CATÉGORIES -->
+<div class="sec">
+  <div class="sec-head rv">
+    <div>
+      <div class="sec-eye"><div class="ebar r"></div><span class="etxt r">Nos catégories</span></div>
+      <h2 class="sec-title">Explorez nos univers créatifs</h2>
+    </div>
+    <button class="see-all" onclick="go('boutique')">Tout voir <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+  </div>
+  <div class="cat-grid">
+    <!-- Mercerie -->
+    <div class="cat-card rv d1" onclick="go('boutique')">
+      <div class="cat-abar" style="background:var(--rose)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Mercerie">
+        <div style="position:absolute;inset:0;background:rgba(253,232,239,0.45)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="scissors" style="width:22px;height:22px;color:var(--rose)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Mercerie & Création</div>
+        <div class="cat-sub">Broderie, boutons, kits</div>
+        <button class="cat-btn r">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+    <!-- Bijoux -->
+    <div class="cat-card rv d2" onclick="go('boutique')">
+      <div class="cat-abar" style="background:var(--bleu)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Bijoux et perles">
+        <div style="position:absolute;inset:0;background:rgba(227,234,252,0.45)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="gem" style="width:22px;height:22px;color:var(--bleu)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Bijoux & Perles</div>
+        <div class="cat-sub">Apprêts, chaînes, perles</div>
+        <button class="cat-btn b">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+    <!-- Outillage -->
+    <div class="cat-card rv d3" onclick="go('boutique')">
+      <div class="cat-abar" style="background:var(--rose)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Outillage Proxxon">
+        <div style="position:absolute;inset:0;background:rgba(245,237,224,0.4)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="wrench" style="width:22px;height:22px;color:var(--rose)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Outillage Proxxon</div>
+        <div class="cat-sub">Percer, poncer, graver</div>
+        <button class="cat-btn r">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+    <!-- Anniversaires -->
+    <div class="cat-card rv d4" onclick="go('ateliers')">
+      <div class="cat-abar" style="background:var(--bleu)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Anniversaire">
+        <div style="position:absolute;inset:0;background:rgba(255,248,224,0.4)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="cake" style="width:22px;height:22px;color:var(--bleu)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Anniversaires</div>
+        <div class="cat-sub">Privatisation boutique</div>
+        <button class="cat-btn b">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+    <!-- Évènements -->
+    <div class="cat-card rv d5" onclick="go('ateliers')">
+      <div class="cat-abar" style="background:var(--rose)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Événements">
+        <div style="position:absolute;inset:0;background:rgba(224,244,239,0.4)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="sparkles" style="width:22px;height:22px;color:var(--rose)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Vos évènements</div>
+        <div class="cat-sub">EVJF, baby-shower</div>
+        <button class="cat-btn r">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+    <!-- Pierres -->
+    <div class="cat-card rv d5" onclick="go('pierres')">
+      <div class="cat-abar" style="background:var(--bleu)"></div>
+      <div class="cat-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1515940175183-6798529cb860?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Pierres et minéraux">
+        <div style="position:absolute;inset:0;background:rgba(240,228,248,0.4)"></div>
+        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="diamond" style="width:22px;height:22px;color:var(--bleu)"></i></div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Les pierres</div>
+        <div class="cat-sub">Lithothérapie & minéraux</div>
+        <button class="cat-btn b">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ATELIERS APERÇU -->
+<div class="atel-sec">
+  <div class="sec" style="padding-top:52px;padding-bottom:52px">
+    <div class="sec-head rv">
+      <div><div class="sec-eye"><div class="ebar b"></div><span class="etxt b">Apprendre & Créer</span></div><h2 class="sec-title">Ateliers & Évènements</h2></div>
+      <button class="see-all b" onclick="go('ateliers')">Voir le programme <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+    </div>
+    <div class="atel-grid">
+      <div class="atel-card rv d1">
+        <div class="atel-vis" style="position:relative">
+          <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600&h=360&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Ateliers adultes">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.55) 0%,rgba(42,95,204,0.2) 60%)"></div>
+        </div>
+        <div class="atel-bar" style="background:var(--bleu)"></div>
+        <div class="atel-body">
+          <div class="atel-name">Ateliers adultes</div>
+          <p class="atel-desc">Prendre du temps pour soi et développer sa dextérité. Tous les niveaux bienvenus.</p>
+          <span class="atag"><i data-lucide="user" style="width:10px;height:10px"></i> Adultes</span>
+        </div>
+      </div>
+      <div class="atel-card rv d2">
+        <div class="atel-vis" style="position:relative">
+          <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=360&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Activités enfants">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.5) 0%,rgba(92,191,172,0.2) 60%)"></div>
+        </div>
+        <div class="atel-bar" style="background:var(--bleu)"></div>
+        <div class="atel-body">
+          <div class="atel-name">Les activités du mercredi</div>
+          <p class="atel-desc">Chaque semaine, une nouvelle idée créative pour les enfants !</p>
+          <span class="atag"><i data-lucide="child" style="width:10px;height:10px"></i> Enfants</span>
+        </div>
+      </div>
+      <div class="atel-card rv d3">
+        <div class="atel-vis" style="position:relative">
+          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=360&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Vos événements">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.5) 0%,rgba(244,200,50,0.15) 60%)"></div>
+        </div>
+        <div class="atel-bar" style="background:var(--bleu)"></div>
+        <div class="atel-body">
+          <div class="atel-name">Vos évènements</div>
+          <p class="atel-desc">EVJF, mariage, baby-shower ou cohésion — donnez du relief à votre évènement.</p>
+          <span class="atag"><i data-lucide="calendar" style="width:10px;height:10px"></i> Sur réservation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRO -->
+<div class="pro rv">
+  <div class="pro-inner">
+    <div>
+      <p class="pro-eye">✦ COMPTE PROFESSIONNEL</p>
+      <h2 class="pro-title">Artisans, entreprises,<br>associations — tarifs exclusifs.</h2>
+      <p class="pro-desc">Des tarifs adaptés, des remises évolutives en fonction des quantités et un service dédié.</p>
+      <div class="pro-acts">
+        <button class="btn-wh" onclick="toast('Demande compte pro envoyée !')">
+          <i data-lucide="briefcase" style="width:14px;height:14px"></i> Passer au compte pro
+        </button>
+        <button class="btn-owh" onclick="toast('Demande envoyée !')">
+          <i data-lucide="mail" style="width:14px;height:14px"></i> Demander des infos
+        </button>
+      </div>
+    </div>
+    <div class="pro-perks">
+      <div class="pro-perk"><div class="pro-perk-ic"><i data-lucide="package" style="width:15px;height:15px"></i></div>Remises évolutives</div>
+      <div class="pro-perk"><div class="pro-perk-ic"><i data-lucide="headphones" style="width:15px;height:15px"></i></div>Service dédié</div>
+      <div class="pro-perk"><div class="pro-perk-ic"><i data-lucide="credit-card" style="width:15px;height:15px"></i></div>Tarifs exclusifs</div>
+      <div class="pro-perk"><div class="pro-perk-ic"><i data-lucide="handshake" style="width:15px;height:15px"></i></div>Partenariats & CE</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFOS -->
+<div class="sec rv">
+  <div class="sec-head">
+    <div><div class="sec-eye"><div class="ebar r"></div><span class="etxt r">Infos pratiques</span></div><h2 class="sec-title">Nous rendre visite</h2></div>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-bar" style="background:var(--rose)"></div>
+      <div class="info-lbl r"><i data-lucide="clock" style="width:11px;height:11px"></i> HORAIRES</div>
+      <div class="h-row"><span class="h-day">Lundi – Vendredi</span><span class="h-time">9h00 – 17h00</span></div>
+      <div class="h-row"><span class="h-day">Samedi</span><span class="h-time">9h00 – 12h00</span></div>
+      <div class="h-row"><span class="h-day">Dimanche</span><span class="h-cl">Fermé</span></div>
+    </div>
+    <div class="info-card">
+      <div class="info-bar" style="background:var(--bleu)"></div>
+      <div class="info-lbl b"><i data-lucide="map-pin" style="width:11px;height:11px"></i> ADRESSE & CONTACT</div>
+      <p class="info-addr">6 Rue Tourville,<br>Quartier Latin</p>
+      <p class="info-city">Nouméa, 98800 — Nouvelle-Calédonie</p>
+      <div class="info-div"></div>
+      <div class="info-ct">
+        <a href="tel:+68724146"><i data-lucide="phone" style="width:12px;height:12px"></i>+687 24 14 64</a>
+        <a href="https://idefix.nc" target="_blank"><i data-lucide="globe" style="width:12px;height:12px"></i>idefix.nc</a>
+      </div>
+    </div>
+    <div class="dlv-card">
+      <div class="dlv-ic"><i data-lucide="truck" style="width:28px;height:28px;color:var(--rose)"></i></div>
+      <div class="dlv-t">Livraison gratuite</div>
+      <div class="dlv-s">dès 6 000 F CFP</div>
+    </div>
+  </div>
+</div>
+
+<!-- ZD -->
+<div class="zd rv">
+  <i data-lucide="leaf" style="width:26px;height:26px;color:var(--bleu);flex-shrink:0"></i>
+  <div class="zd-content">
+    <div class="zd-ttl">Mon commerçant s'engage — Zéro Déchet Nouvelle-Calédonie</div>
+    <div class="zd-desc">Signataires de la charte Zéro Déchet NC. Parce que le meilleur déchet est celui qu'on ne produit pas.</div>
+  </div>
+  <button class="btn-bl" onclick="toast('En savoir plus sur notre engagement !')">
+    En savoir plus <i data-lucide="arrow-right" style="width:13px;height:13px"></i>
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <div class="ft-logo">
+        <div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center">
+          <img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block">
+        </div>
+      </div>
+      <p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans. Do it yourself !</p>
+    </div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links">
+      <li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li>
+      <li><a onclick="toast('Nouveautés !')"><i data-lucide="sparkles" style="width:12px;height:12px"></i>Nouveautés</a></li>
+      <li><a onclick="toast('Compte pro !')"><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li>
+    </ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links">
+      <li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li>
+      <li><a onclick="go('ateliers')"><i data-lucide="users" style="width:12px;height:12px"></i>Évènements</a></li>
+      <li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li>
+    </ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links">
+      <li><a><i data-lucide="info" style="width:12px;height:12px"></i>À propos</a></li>
+      <li><a onclick="toast('Recrutement !')"><i data-lucide="user-plus" style="width:12px;height:12px"></i>Recrutement</a></li>
+      <li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV / CGU</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bot">
+    <p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX) — Tous droits réservés</p>
+    <div class="ft-social">
+      <span class="spill" onclick="toast('Facebook Idéfix !')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span>
+      <span class="spill" onclick="toast('Instagram Idéfix !')"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span>
+    </div>
+  </div>
+</footer>
+</div>
+<!-- ══ PAGE BOUTIQUE ══ -->
+<div class="page" id="p-boutique">
+<div class="strip"><div class="strip-track">
+  <span class="strip-item"><i data-lucide="truck" style="width:12px;height:12px"></i> Livraison gratuite dès 6 000 F</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Commandez avant 15h → livraison lendemain</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">8 000 références disponibles</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="truck" style="width:12px;height:12px"></i> Livraison gratuite dès 6 000 F</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Commandez avant 15h → livraison lendemain</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">8 000 références disponibles</span><span class="strip-item strip-sep">·</span>
+</div></div>
+<div class="ph r"><div class="ph-inner">
+  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar r"></div><span class="etxt r">Boutique en ligne</span></div>
+  <h1 class="ph-title">8 000 références à portée de <em class="r">clic</em></h1>
+  <p class="ph-desc">Mercerie, bijoux, perles, arts plastiques et plus encore.</p>
+</div></div>
+<div class="shop">
+  <div class="filt">
+    <div class="filt-title">Filtres</div>
+    <div class="fg"><div class="fg-title">Catégories</div>
+      <button class="fo on" onclick="setF(this,'Faire la fête')"><div class="fd"></div>Faire la fête</button>
+      <button class="fo" onclick="setF(this,'Mercerie')"><div class="fd"></div>Mercerie & Création</button>
+      <button class="fo" onclick="setF(this,'Apprêts')"><div class="fd"></div>Apprêts & Supports</button>
+      <button class="fo" onclick="setF(this,'Bijoux')"><div class="fd"></div>Bijoux & Cadeaux</button>
+      <button class="fo" onclick="setF(this,'Peinture')"><div class="fd"></div>Peinture & Couleurs</button>
+      <button class="fo" onclick="setF(this,'Outillage')"><div class="fd"></div>Outillage Proxxon</button>
+    </div>
+    <div class="fg"><div class="fg-title">Prix</div>
+      <button class="fo" onclick="setF(this,'Moins de 500 F')"><div class="fd"></div>Moins de 500 F</button>
+      <button class="fo" onclick="setF(this,'500 – 2 000 F')"><div class="fd"></div>500 – 2 000 F</button>
+      <button class="fo" onclick="setF(this,'Plus de 2 000 F')"><div class="fd"></div>Plus de 2 000 F</button>
+    </div>
+  </div>
+  <div class="prod-grid">
+    <div class="pcard" onclick="addCart('Kit loisirs créatifs')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Kit loisirs créatifs">
+        <div style="position:absolute;inset:0;background:rgba(228,46,95,0.08)"></div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Kit loisirs créatifs</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Mercerie & Création</div>
+        <div class="pcard-ft"><span class="pcard-price">1 200 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+    <div class="pcard" onclick="addCart('Set bijoux & perles')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Set bijoux et perles">
+        <div style="position:absolute;inset:0;background:rgba(42,95,204,0.06)"></div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Set bijoux & perles</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Bijoux & Cadeaux</div>
+        <div class="pcard-ft"><span class="pcard-price">2 400 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+    <div class="pcard" onclick="addCart('Outil Proxxon Micromot')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Outil Proxxon">
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Outil Proxxon Micromot</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Outillage</div>
+        <div class="pcard-ft"><span class="pcard-price">8 500 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+    <div class="pcard" onclick="addCart('Pierre & minéral')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1515940175183-6798529cb860?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Pierre et minéral brut">
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Pierre & minéral brut</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Pierres & Minéraux</div>
+        <div class="pcard-ft"><span class="pcard-price">650 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+    <div class="pcard" onclick="addCart('Kit déco anniversaire')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Kit déco anniversaire">
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Kit déco anniversaire</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Faire la fête</div>
+        <div class="pcard-ft"><span class="pcard-price">1 800 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+    <div class="pcard" onclick="addCart('Kit peinture acrylique')">
+      <div class="pcard-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Kit peinture acrylique">
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Kit peinture acrylique</div>
+        <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Peinture & Couleurs</div>
+        <div class="pcard-ft"><span class="pcard-price">3 200 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="ft-grid">
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li><li><a><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX)</p><div class="ft-social"><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span></div></div>
+</footer>
+</div>
+
+<!-- ══ PAGE ATELIERS ══ -->
+<div class="page" id="p-ateliers">
+<div class="strip bl"><div class="strip-track">
+  <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Privatisation pour évènements</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Privatisation pour évènements</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
+</div></div>
+<div class="ph b"><div class="ph-inner">
+  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar b"></div><span class="etxt b">Ateliers & Évènements</span></div>
+  <h1 class="ph-title">Apprenez, créez, <em class="b">partagez</em></h1>
+  <p class="ph-desc">Artiste chevronné ou débutant enthousiaste ? Tous les niveaux bienvenus !</p>
+</div></div>
+<div class="cal-wrap" style="margin-top:32px">
+  <div class="cal-strip">
+    <div class="cal-title"><i data-lucide="calendar-days" style="width:18px;height:18px;color:var(--bleu)"></i> Programme — Juin 2026</div>
+    <div class="cal-grid">
+      <div class="cd"><div class="cd-n">Lun</div><div class="cd-d">1</div></div>
+      <div class="cd ev"><div class="cd-n">Mar</div><div class="cd-d">2</div></div>
+      <div class="cd"><div class="cd-n">Mer</div><div class="cd-d">3</div></div>
+      <div class="cd ev"><div class="cd-n">Jeu</div><div class="cd-d">4</div></div>
+      <div class="cd"><div class="cd-n">Ven</div><div class="cd-d">5</div></div>
+      <div class="cd"><div class="cd-n">Sam</div><div class="cd-d">6</div></div>
+      <div class="cd"><div class="cd-n">Dim</div><div class="cd-d">7</div></div>
+      <div class="cd ev"><div class="cd-n">Lun</div><div class="cd-d">8</div></div>
+      <div class="cd tod"><div class="cd-n">Mar</div><div class="cd-d">9</div></div>
+      <div class="cd"><div class="cd-n">Mer</div><div class="cd-d">10</div></div>
+      <div class="cd ev"><div class="cd-n">Jeu</div><div class="cd-d">11</div></div>
+      <div class="cd"><div class="cd-n">Ven</div><div class="cd-d">12</div></div>
+      <div class="cd"><div class="cd-n">Sam</div><div class="cd-d">13</div></div>
+      <div class="cd"><div class="cd-n">Dim</div><div class="cd-d">14</div></div>
+    </div>
+  </div>
+</div>
+<div class="sec">
+  <div class="sec-head rv"><div><div class="sec-eye"><div class="ebar b"></div><span class="etxt b">Tous nos ateliers</span></div><h2 class="sec-title">Choisissez votre atelier</h2></div></div>
+  <div class="atel-full-grid">
+    <div class="afc rv d1">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Ateliers adultes">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.5) 0%,rgba(42,95,204,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag b"><i data-lucide="user" style="width:9px;height:9px"></i> Adultes</span><span class="tag r"><i data-lucide="repeat" style="width:9px;height:9px"></i> Hebdomadaire</span></div>
+        <div class="afc-name">Ateliers adultes</div>
+        <p class="afc-desc">Prendre du temps pour soi et développer sa dextérité. Nos animatrices passionnées vous guident dans la création de bijoux, broderie, macramé et bien plus.</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">À partir de 2 500 F</span><button class="btn-res" onclick="toast('Réservation envoyée !')"><i data-lucide="calendar-check" style="width:13px;height:13px"></i> Réserver</button></div>
+      </div>
+    </div>
+    <div class="afc rv d2">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Activités mercredi enfants">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.4) 0%,rgba(92,191,172,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag b"><i data-lucide="child" style="width:9px;height:9px"></i> Enfants</span><span class="tag r"><i data-lucide="repeat" style="width:9px;height:9px"></i> Hebdomadaire</span></div>
+        <div class="afc-name">Les activités du mercredi</div>
+        <p class="afc-desc">Coller, peindre, tisser, bricoler, planter ou teindre ? Chaque semaine, une nouvelle idée créative pour les enfants !</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">À partir de 1 500 F</span><button class="btn-res" onclick="toast('Réservation envoyée !')"><i data-lucide="calendar-check" style="width:13px;height:13px"></i> Réserver</button></div>
+      </div>
+    </div>
+    <div class="afc rv d3">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Anniversaire créatif">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(228,46,95,0.35) 0%,rgba(244,200,50,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag r"><i data-lucide="key" style="width:9px;height:9px"></i> Privatisation</span><span class="tag b"><i data-lucide="calendar" style="width:9px;height:9px"></i> Sur réservation</span></div>
+        <div class="afc-name">Ton anniversaire avec Idéfix</div>
+        <p class="afc-desc">Privatise la boutique pour ton anniversaire ou invite nos animatrices sur le lieu de ton choix. Une fête créative inoubliable !</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--rose)">Sur devis</span><button class="btn-res r" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
+      </div>
+    </div>
+    <div class="afc rv d4">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Vos événements">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(228,46,95,0.4) 0%,rgba(240,157,184,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag b"><i data-lucide="key" style="width:9px;height:9px"></i> Privatisation</span><span class="tag r">EVJF · Baby-shower</span></div>
+        <div class="afc-name">Vos évènements</div>
+        <p class="afc-desc">EVJF, mariage, baby-shower ou activité de cohésion — donnez du relief à votre évènement autour d'un atelier créatif.</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">Sur devis</span><button class="btn-res" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
+      </div>
+    </div>
+    <div class="afc rv d5">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Matinées pédagogiques scolaire">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.5) 0%,rgba(74,126,204,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag b"><i data-lucide="graduation-cap" style="width:9px;height:9px"></i> Scolaire</span><span class="tag r"><i data-lucide="calendar" style="width:9px;height:9px"></i> Sur réservation</span></div>
+        <div class="afc-name">Matinées pédagogiques</div>
+        <p class="afc-desc">Pour continuer d'apprendre tout en s'amusant. Des matinées créatives adaptées aux groupes scolaires et périscolaires.</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">Sur devis</span><button class="btn-res" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
+      </div>
+    </div>
+    <div class="afc rv d5">
+      <div class="afc-vis" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1445120520522-7327a0cf3c4e?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Vacances scolaires créatives">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.4) 0%,rgba(58,172,140,0.1) 70%)"></div>
+      </div>
+      <div class="afc-body">
+        <div class="afc-tags"><span class="tag b"><i data-lucide="child" style="width:9px;height:9px"></i> Enfants</span><span class="tag r"><i data-lucide="sun" style="width:9px;height:9px"></i> Vacances scolaires</span></div>
+        <div class="afc-name">Les vacances scolaires</div>
+        <p class="afc-desc">À la semaine ou à la carte, c'est toi qui vois ! Des stages créatifs pendant les vacances pour les enfants.</p>
+        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">À partir de 1 200 F</span><button class="btn-res" onclick="toast('Réservation envoyée !')"><i data-lucide="calendar-check" style="width:13px;height:13px"></i> Réserver</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="ft-grid">
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX)</p><div class="ft-social"><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span></div></div>
+</footer>
+</div>
+
+<!-- ══ PAGE IDÉES ══ -->
+<div class="page" id="p-idees">
+<div class="ph r"><div class="ph-inner">
+  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar r"></div><span class="etxt r">Inspirations & tutoriels</span></div>
+  <h1 class="ph-title">Nos idées <em class="r">créatives</em></h1>
+  <p class="ph-desc">Nos astuces pour des rendus parfaits et originaux.</p>
+</div></div>
+<div class="ideas">
+  <div class="icard rv"><div class="icard-vis tall" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=440&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Tutoriels mercerie">
+    <div style="position:absolute;inset:0;background:rgba(228,46,95,0.08)"></div>
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag r">Mercerie</span><span class="tag b">Débutant</span></div><div class="icard-title">Libérez votre créativité avec nos tutos</div><p class="icard-desc">Travaux d'aiguilles, peinture ou scrapbooking ? Tutoriels pour tous les niveaux.</p><div class="icard-read">Lire le tutoriel <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+
+  <div class="icard rv d1"><div class="icard-vis sh" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&h=310&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Techniques bijoux macramé">
+    <div style="position:absolute;inset:0;background:rgba(42,95,204,0.06)"></div>
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag b">Bijoux</span><span class="tag r">Intermédiaire</span></div><div class="icard-title">Micro macramé & bracelets brésiliens</div><p class="icard-desc">Découvrez les techniques indispensables. Créez, réparez et personnalisez vos bijoux.</p><div class="icard-read">Voir les techniques <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+
+  <div class="icard rv d2"><div class="icard-vis sh" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=500&h=310&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Guide outillage Proxxon">
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag r">Outillage</span><span class="tag b">Avancé</span></div><div class="icard-title">Percer, poncer, graver avec Proxxon</div><p class="icard-desc">Tout l'outillage dont vous avez besoin avec notre gamme Proxxon Micromot.</p><div class="icard-read">Voir le guide <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+
+  <div class="icard rv"><div class="icard-vis tall" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?w=500&h=440&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Ateliers créatifs">
+    <div style="position:absolute;inset:0;background:rgba(42,95,204,0.1)"></div>
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag b">Atelier</span><span class="tag r">Tous niveaux</span></div><div class="icard-title">Rejoignez nos ateliers créatifs</div><p class="icard-desc">Nos animatrices vous guident pas à pas dans vos projets les plus ambitieux.</p><div class="icard-read">Voir les ateliers <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+
+  <div class="icard rv d1"><div class="icard-vis sh" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=500&h=310&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Anniversaire créatif">
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag r">Événement</span></div><div class="icard-title">10 idées pour un anniversaire créatif</div><p class="icard-desc">Privatisez la boutique et créez des souvenirs inoubliables avec vos proches.</p><div class="icard-read">Découvrir <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+
+  <div class="icard rv d2"><div class="icard-vis tall" style="position:relative">
+    <img src="https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=500&h=440&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Propriétés des pierres">
+    <div style="position:absolute;inset:0;background:rgba(123,31,162,0.08)"></div>
+  </div><div class="icard-body"><div class="icard-tags"><span class="tag b">Pierres</span></div><div class="icard-title">Découvrez les propriétés des pierres</div><p class="icard-desc">Améthyste, quartz rose, lapis-lazuli — chaque minéral possède ses propres vertus.</p><div class="icard-read">En savoir plus <i data-lucide="arrow-right" style="width:12px;height:12px"></i></div></div></div>
+</div>
+<footer>
+  <div class="ft-grid">
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Ateliers</a></li></ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX)</p><div class="ft-social"><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span></div></div>
+</footer>
+</div>
+
+<!-- ══ PAGE PIERRES ══ -->
+<div class="page" id="p-pierres">
+<div class="ph vi"><div class="ph-inner">
+  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar" style="background:#7B1FA2"></div><span class="etxt" style="color:#7B1FA2">Minéraux & Lithothérapie</span></div>
+  <h1 class="ph-title">Les pierres <em class="v">&amp; minéraux</em></h1>
+  <p class="ph-desc">Découvrez la lithothérapie. Cliquez sur la couleur qui vous inspire.</p>
+</div></div>
+<div class="pierres-intro">
+  <div class="rv">
+    <div class="pierre-colors">
+      <div class="pcol" onclick="toast('Pierres blanches — pureté & clarté')"><div class="pcol-sw" style="background:linear-gradient(135deg,#f0f0ee,#d8d4cc)"></div></div>
+      <div class="pcol" onclick="toast('Pierres roses — amour & douceur')"><div class="pcol-sw" style="background:linear-gradient(135deg,#f7c5d8,#e8809c)"></div></div>
+      <div class="pcol" onclick="toast('Pierres violettes — sérénité & intuition')"><div class="pcol-sw" style="background:linear-gradient(135deg,#c9a0e0,#8a50b8)"></div></div>
+      <div class="pcol" onclick="toast('Pierres bleues — sagesse & communication')"><div class="pcol-sw" style="background:linear-gradient(135deg,#90b4f0,#4068d0)"></div></div>
+      <div class="pcol" onclick="toast('Pierres vertes — croissance & équilibre')"><div class="pcol-sw" style="background:linear-gradient(135deg,#90dbb0,#40a870)"></div></div>
+      <div class="pcol" onclick="toast('Pierres jaunes — positivité & abondance')"><div class="pcol-sw" style="background:linear-gradient(135deg,#f8e070,#d4a020)"></div></div>
+      <div class="pcol" onclick="toast('Pierres oranges — courage & vitalité')"><div class="pcol-sw" style="background:linear-gradient(135deg,#f4a060,#d06020)"></div></div>
+      <div class="pcol" onclick="toast('Pierres rouges — force & passion')"><div class="pcol-sw" style="background:linear-gradient(135deg,#e07070,#b02020)"></div></div>
+      <div class="pcol" onclick="toast('Pierres marrons — ancrage & stabilité')"><div class="pcol-sw" style="background:linear-gradient(135deg,#b09070,#705040)"></div></div>
+      <div class="pcol" onclick="toast('Pierres noires — protection puissante')"><div class="pcol-sw" style="background:linear-gradient(135deg,#504848,#181414)"></div></div>
+    </div>
+    <div class="sec-eye" style="margin-bottom:10px"><div class="ebar" style="background:#7B1FA2"></div><span class="etxt" style="color:#7B1FA2">Notre sélection</span></div>
+    <h2 class="sec-title" style="margin-bottom:13px">La puissance<br>des minéraux</h2>
+    <p style="font-size:15px;color:var(--ink-m);line-height:1.7;margin-bottom:20px">Nous sélectionnons chaque pierre pour ses qualités visuelles et énergétiques. Améthyste, quartz rose, lapis-lazuli — chaque minéral raconte une histoire.</p>
+    <button class="btn-res" onclick="go('ateliers')">Voir les ateliers lithothérapie <i data-lucide="arrow-right" style="width:13px;height:13px"></i></button>
+  </div>
+  <div class="pierres-vis rv d2">
+    <div class="pg"><div class="pg-vis" style="position:relative;width:100%;height:100%"><img src="https://images.unsplash.com/photo-1515940175183-6798529cb860?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Améthyste"></div></div>
+    <div class="pg"><div class="pg-vis" style="position:relative;width:100%;height:100%"><img src="https://images.unsplash.com/photo-1573408301185-9519eb01b0f2?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Quartz rose"></div></div>
+    <div class="pg"><div class="pg-vis" style="position:relative;width:100%;height:100%"><img src="https://images.unsplash.com/photo-1529418609776-e9adda0e4e2e?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Lapis-Lazuli"></div></div>
+    <div class="pg"><div class="pg-vis" style="position:relative;width:100%;height:100%"><img src="https://images.unsplash.com/photo-1567827893853-93acf3bb2b8c?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Malachite"></div></div>
+  </div>
+</div>
+<div class="pierres-grid">
+  <div class="pierre-card rv" onclick="addCart('Améthyste')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1515940175183-6798529cb860?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Améthyste"></div>
+    <div class="pierre-body"><div class="pierre-name">Améthyste</div><p class="pierre-virtue">Sérénité · Protection · Intuition</p></div>
+  </div>
+  <div class="pierre-card rv d1" onclick="addCart('Quartz rose')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1573408301185-9519eb01b0f2?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Quartz rose"></div>
+    <div class="pierre-body"><div class="pierre-name">Quartz rose</div><p class="pierre-virtue">Amour · Douceur · Confiance en soi</p></div>
+  </div>
+  <div class="pierre-card rv d2" onclick="addCart('Lapis-Lazuli')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1529418609776-e9adda0e4e2e?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Lapis-Lazuli"></div>
+    <div class="pierre-body"><div class="pierre-name">Lapis-Lazuli</div><p class="pierre-virtue">Sagesse · Communication · Clarté</p></div>
+  </div>
+  <div class="pierre-card rv d3" onclick="addCart('Malachite')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1567827893853-93acf3bb2b8c?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Malachite"></div>
+    <div class="pierre-body"><div class="pierre-name">Malachite</div><p class="pierre-virtue">Transformation · Croissance · Équilibre</p></div>
+  </div>
+  <div class="pierre-card rv d1" onclick="addCart('Citrine')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1564089657040-14d93c1c29b4?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Citrine"></div>
+    <div class="pierre-body"><div class="pierre-name">Citrine</div><p class="pierre-virtue">Positivité · Abondance · Créativité</p></div>
+  </div>
+  <div class="pierre-card rv d2" onclick="addCart('Cornaline')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1603204077779-bed963ea7d0e?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Cornaline"></div>
+    <div class="pierre-body"><div class="pierre-name">Cornaline</div><p class="pierre-virtue">Courage · Vitalité · Motivation</p></div>
+  </div>
+  <div class="pierre-card rv d3" onclick="addCart('Œil de tigre')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1577880216142-8549e9488dad?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Œil de tigre"></div>
+    <div class="pierre-body"><div class="pierre-name">Œil de tigre</div><p class="pierre-virtue">Confiance · Courage · Concentration</p></div>
+  </div>
+  <div class="pierre-card rv d4" onclick="addCart('Obsidienne noire')">
+    <div class="pierre-vis" style="position:relative"><img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400&h=280&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Obsidienne noire"></div>
+    <div class="pierre-body"><div class="pierre-name">Obsidienne noire</div><p class="pierre-virtue">Protection · Ancrage · Libération</p></div>
+  </div>
+</div>
+<footer>
+  <div class="ft-grid">
+    <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="idefix-logo.png" alt="Idéfix" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
+    <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Boutique</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Ateliers</a></li></ul></div>
+    <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><p class="ft-copy">© 2026 SARL VERT NATURE NC (IDEFIX)</p><div class="ft-social"><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</span><span class="spill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</span></div></div>
+</footer>
+</div>
+<script>
+
+// ── NAV SCROLL ───────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>16);
+},{passive:true});
+
+// ── DRAWER ───────────────────────────────────────────────────────
+let dOpen=false;
+function toggleDrawer(){
+  dOpen=!dOpen;
+  document.getElementById('drawer').classList.toggle('open',dOpen);
+  document.getElementById('hamburger').classList.toggle('open',dOpen);
+  document.body.style.overflow=dOpen?'hidden':'';
+}
+function toggleSub(id,arrId){
+  const sub=document.getElementById(id);
+  const isOpen=sub.classList.toggle('open');
+  const arr=document.getElementById(arrId);
+  if(arr) arr.style.transform=isOpen?'rotate(90deg)':'';
+}
+document.addEventListener('click',e=>{
+  if(dOpen&&!document.getElementById('drawer').contains(e.target)
+     &&!document.getElementById('hamburger').contains(e.target)) toggleDrawer();
+});
+
+// ── PAGES ─────────────────────────────────────────────────────────
+const PAGES=['home','boutique','ateliers','idees','pierres'];
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.pdot').forEach((d,i)=>d.classList.toggle('on',PAGES[i]===id));
+  PAGES.forEach(p=>{const el=document.getElementById('bn-'+p);if(el)el.classList.toggle('on',p===id)});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(dOpen)toggleDrawer();
+  setTimeout(()=>{
+    document.querySelectorAll('#p-'+id+' .rv').forEach(el=>el.classList.remove('on'));
+    setTimeout(reveal,80);
+  },60);
+}
+
+// ── SCROLL REVEAL ────────────────────────────────────────────────
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}});
+},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
+function reveal(){
+  document.querySelectorAll('.page.on .rv').forEach(el=>obs.observe(el));
+}
+setTimeout(reveal,140);
+
+// ── CART ─────────────────────────────────────────────────────────
+let cart=0;
+function addCart(name){
+  cart++;
+  ['cbadge','cdb'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=cart});
+  const b=document.getElementById('cbadge');
+  b.style.transform='scale(1.6)';
+  setTimeout(()=>b.style.transform='',280);
+  toast(name+' ajouté au panier !');
+}
+
+// ── FILTERS ──────────────────────────────────────────────────────
+function setF(el,name){
+  document.querySelectorAll('#p-boutique .fo').forEach(f=>f.classList.remove('on'));
+  el.classList.add('on');
+  toast('Filtre appliqué : '+name);
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────
+let tt;
+function toast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('t-msg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(tt);
+  tt=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── KEYBOARD ─────────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  const cur=document.querySelector('.page.on');
+  const idx=PAGES.indexOf(cur?.id.replace('p-',''));
+  if(e.key==='ArrowRight'&&idx<PAGES.length-1)go(PAGES[idx+1]);
+  if(e.key==='ArrowLeft'&&idx>0)go(PAGES[idx-1]);
+  if(e.key==='Escape'&&dOpen)toggleDrawer();
+});
+
+// ── TOUCH SWIPE ───────────────────────────────────────────────────
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{
+  if(dOpen)return;
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)<60)return;
+  const cur=document.querySelector('.page.on');
+  const idx=PAGES.indexOf(cur?.id.replace('p-',''));
+  if(dx<-60&&idx<PAGES.length-1)go(PAGES[idx+1]);
+  if(dx>60&&idx>0)go(PAGES[idx-1]);
+},{passive:true});
+
+// ── LUCIDE INIT ───────────────────────────────────────────────────
+// Lucide replaces <i data-lucide="..."> elements with SVG
+lucide.createIcons();
+</script>
+</body>
+</html>
