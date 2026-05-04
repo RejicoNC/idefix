@@ -769,7 +769,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
       <div class="mega c2">
         <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="users" style="width:16px;height:16px"></i></div><div><div class="mi-t">Ateliers adultes</div><div class="mi-s">Dextérité & créativité</div></div></div>
         <div class="mi" onclick="go('ateliers')"><div class="mi-ic b"><i data-lucide="book-open" style="width:16px;height:16px"></i></div><div><div class="mi-t">Activités mercredi</div><div class="mi-s">Chaque semaine une idée</div></div></div>
-        <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="cake" style="width:16px;height:16px"></i></div><div><div class="mi-t">Anniversaires</div><div class="mi-s">Privatisation boutique</div></div></div>
       </div>
     </li>
     <li><a onclick="go('apropos')">À propos</a></li>
@@ -816,7 +815,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
   <div class="dl-sub" id="sa">
     <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="users" style="width:13px;height:13px"></i></div>Ateliers adultes</button>
     <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="book-open" style="width:13px;height:13px"></i></div>Activités mercredi</button>
-    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="cake" style="width:13px;height:13px"></i></div>Anniversaires</button>
   </div>
   <button class="dl" onclick="go('apropos');toggleDrawer()">
     <span class="dl-left"><div class="dl-ic b"><i data-lucide="info" style="width:15px;height:15px"></i></div>À propos</span>
@@ -999,20 +997,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <button class="cat-btn r">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
       </div>
     </div>
-    <!-- Anniversaires -->
-    <div class="cat-card rv d4" onclick="go('ateliers')">
-      <div class="cat-abar" style="background:var(--bleu)"></div>
-      <div class="cat-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Anniversaire">
-        <div style="position:absolute;inset:0;background:rgba(255,248,224,0.4)"></div>
-        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="cake" style="width:22px;height:22px;color:var(--bleu)"></i></div>
-      </div>
-      <div class="cat-body">
-        <div class="cat-name">Anniversaires</div>
-        <div class="cat-sub">Privatisation boutique</div>
-        <button class="cat-btn b">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
-      </div>
-    </div>
     <!-- Pierres -->
     <div class="cat-card rv d5" onclick="go('boutique')">
       <div class="cat-abar" style="background:var(--bleu)"></div>
@@ -1153,8 +1137,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
     </ul></div>
     <div><div class="ft-col-t">Ateliers</div><ul class="ft-links">
       <li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li>
-      <li><a onclick="go('ateliers')"><i data-lucide="cake" style="width:12px;height:12px"></i>Anniversaires</a></li>
-      <li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li>
+            <li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li>
     </ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links">
       <li><a onclick="go('apropos')"><i data-lucide="info" style="width:12px;height:12px"></i>À propos</a></li>
@@ -1288,7 +1271,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
   <div class="ft-grid">
     <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
     <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li><li><a><i data-lucide="sparkles" style="width:12px;height:12px"></i>Nouveautés</a></li><li><a><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li></ul></div>
-    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a onclick="go('ateliers')"><i data-lucide="cake" style="width:12px;height:12px"></i>Anniversaires</a></li><li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a onclick="go('apropos')"><i data-lucide="info" style="width:12px;height:12px"></i>À propos</a></li><li><a href="mailto:commercial@idefix.nc"><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li><li><a onclick="go('mentions')"><i data-lucide="shield" style="width:12px;height:12px"></i>Mentions légales</a></li></ul></div>
     <div><div class="ft-col-t">Horaires</div>
       <div style="font-size:12px;color:rgba(255,255,255,.48);display:flex;flex-direction:column;gap:7px;margin-top:2px">
@@ -1307,10 +1290,8 @@ footer{background:var(--ink);padding:52px 80px 26px}
 <div class="page" id="p-ateliers">
 <div class="strip bl"><div class="strip-track">
   <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
-  <span class="strip-item">Privatisation pour anniversaires</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
-  <span class="strip-item">Privatisation pour anniversaires</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
 </div></div>
 <div class="ph b"><div class="ph-inner">
@@ -1364,18 +1345,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <div class="afc-name">Les activités du mercredi</div>
         <p class="afc-desc">Coller, peindre, tisser, bricoler, planter ou teindre ? Chaque semaine, une nouvelle idée créative pour les enfants !</p>
         <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">À partir de 1 500 F</span><button class="btn-res" onclick="toast('Réservation envoyée !')"><i data-lucide="calendar-check" style="width:13px;height:13px"></i> Réserver</button></div>
-      </div>
-    </div>
-    <div class="afc rv d3">
-      <div class="afc-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Anniversaire créatif">
-        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(228,46,95,0.35) 0%,rgba(244,200,50,0.1) 70%)"></div>
-      </div>
-      <div class="afc-body">
-        <div class="afc-tags"><span class="tag r"><i data-lucide="key" style="width:9px;height:9px"></i> Privatisation</span><span class="tag b"><i data-lucide="calendar" style="width:9px;height:9px"></i> Sur réservation</span></div>
-        <div class="afc-name">Ton anniversaire avec Idéfix</div>
-        <p class="afc-desc">Privatise la boutique pour ton anniversaire ou invite nos animatrices sur le lieu de ton choix. Une fête créative inoubliable !</p>
-        <div class="afc-ft"><span class="afc-price" style="color:var(--rose)">Sur devis</span><button class="btn-res r" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
       </div>
     </div>
     <div class="afc rv d5">
