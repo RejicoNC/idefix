@@ -765,12 +765,11 @@ footer{background:var(--ink);padding:52px 80px 26px}
       </div>
     </li>
     <li>
-      <a onclick="go('ateliers')">Ateliers & Évènements <i data-lucide="chevron-down" style="width:13px;height:13px" class="chev-ic"></i></a>
+      <a onclick="go('ateliers')">Ateliers <i data-lucide="chevron-down" style="width:13px;height:13px" class="chev-ic"></i></a>
       <div class="mega c2">
         <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="users" style="width:16px;height:16px"></i></div><div><div class="mi-t">Ateliers adultes</div><div class="mi-s">Dextérité & créativité</div></div></div>
         <div class="mi" onclick="go('ateliers')"><div class="mi-ic b"><i data-lucide="book-open" style="width:16px;height:16px"></i></div><div><div class="mi-t">Activités mercredi</div><div class="mi-s">Chaque semaine une idée</div></div></div>
         <div class="mi" onclick="go('ateliers')"><div class="mi-ic r"><i data-lucide="cake" style="width:16px;height:16px"></i></div><div><div class="mi-t">Anniversaires</div><div class="mi-s">Privatisation boutique</div></div></div>
-        <div class="mi" onclick="go('ateliers')"><div class="mi-ic b"><i data-lucide="glass-water" style="width:16px;height:16px"></i></div><div><div class="mi-t">Vos évènements</div><div class="mi-s">EVJF & anniversaires</div></div></div>
       </div>
     </li>
     <li><a onclick="go('apropos')">À propos</a></li>
@@ -811,14 +810,13 @@ footer{background:var(--ink);padding:52px 80px 26px}
     <button class="dl-sub-item" onclick="go('boutique');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="wrench" style="width:13px;height:13px"></i></div>Outillage Proxxon</button>
   </div>
   <button class="dl" onclick="toggleSub('sa','arr-a')">
-    <span class="dl-left"><div class="dl-ic r"><i data-lucide="paintbrush" style="width:15px;height:15px"></i></div>Ateliers & Évènements</span>
+    <span class="dl-left"><div class="dl-ic r"><i data-lucide="paintbrush" style="width:15px;height:15px"></i></div>Ateliers</span>
     <i data-lucide="chevron-right" style="width:15px;height:15px" class="dl-arr" id="arr-a"></i>
   </button>
   <div class="dl-sub" id="sa">
     <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="users" style="width:13px;height:13px"></i></div>Ateliers adultes</button>
     <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="book-open" style="width:13px;height:13px"></i></div>Activités mercredi</button>
     <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic r"><i data-lucide="cake" style="width:13px;height:13px"></i></div>Anniversaires</button>
-    <button class="dl-sub-item" onclick="go('ateliers');toggleDrawer()"><div class="dl-sub-ic b"><i data-lucide="glass-water" style="width:13px;height:13px"></i></div>Vos évènements</button>
   </div>
   <button class="dl" onclick="go('apropos');toggleDrawer()">
     <span class="dl-left"><div class="dl-ic b"><i data-lucide="info" style="width:15px;height:15px"></i></div>À propos</span>
@@ -941,18 +939,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
           <div class="bbl-age-sub">Bijoux · Broderie · Lithothérapie</div>
         </div>
       </div>
-      <!-- Événements -->
-      <div class="bbl-age rv d3" onclick="go('ateliers')" style="box-shadow:0 8px 36px rgba(123,63,190,.3)">
-        <div class="bbl-age-vis" style="background:linear-gradient(135deg,#B07AE0 0%,#6A24B0 100%);position:relative">
-          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.12" viewBox="0 0 260 120"><circle cx="130" cy="-20" r="100" fill="white"/></svg>
-          <i data-lucide="party-popper" style="width:34px;height:34px;color:rgba(255,255,255,.92);position:relative;z-index:1"></i>
-        </div>
-        <div class="bbl-age-body" style="background:linear-gradient(135deg,#7B3FBE 0%,#4A1A82 100%)">
-          <div class="bbl-age-badge">Évènements</div>
-          <div class="bbl-age-title">Votre<br><em>évènement</em></div>
-          <div class="bbl-age-sub">EVJF · Anniversaires</div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -1027,20 +1013,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <button class="cat-btn b">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
       </div>
     </div>
-    <!-- Évènements -->
-    <div class="cat-card rv d5" onclick="go('ateliers')">
-      <div class="cat-abar" style="background:var(--rose)"></div>
-      <div class="cat-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=360&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Événements">
-        <div style="position:absolute;inset:0;background:rgba(224,244,239,0.4)"></div>
-        <div class="cat-vis-ic" style="position:relative;z-index:1"><i data-lucide="sparkles" style="width:22px;height:22px;color:var(--rose)"></i></div>
-      </div>
-      <div class="cat-body">
-        <div class="cat-name">Vos évènements</div>
-        <div class="cat-sub">EVJF, baby-shower</div>
-        <button class="cat-btn r">Voir tout <i data-lucide="arrow-right" style="width:11px;height:11px"></i></button>
-      </div>
-    </div>
     <!-- Pierres -->
     <div class="cat-card rv d5" onclick="go('boutique')">
       <div class="cat-abar" style="background:var(--bleu)"></div>
@@ -1062,7 +1034,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 <div class="atel-sec">
   <div class="sec" style="padding-top:52px;padding-bottom:52px">
     <div class="sec-head rv">
-      <div><div class="sec-eye"><div class="ebar b"></div><span class="etxt b">Apprendre & Créer</span></div><h2 class="sec-title">Ateliers & Évènements</h2></div>
+      <div><div class="sec-eye"><div class="ebar b"></div><span class="etxt b">Apprendre & Créer</span></div><h2 class="sec-title">Nos Ateliers</h2></div>
       <button class="see-all b" onclick="go('ateliers')">Voir le programme <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
     </div>
     <div class="atel-grid">
@@ -1088,18 +1060,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
           <div class="atel-name">Les activités du mercredi</div>
           <p class="atel-desc">Chaque semaine, une nouvelle idée créative pour les enfants !</p>
           <span class="atag"><i data-lucide="child" style="width:10px;height:10px"></i> Enfants</span>
-        </div>
-      </div>
-      <div class="atel-card rv d3">
-        <div class="atel-vis" style="position:relative">
-          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=360&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Vos événements">
-          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(42,95,204,0.5) 0%,rgba(244,200,50,0.15) 60%)"></div>
-        </div>
-        <div class="atel-bar" style="background:var(--bleu)"></div>
-        <div class="atel-body">
-          <div class="atel-name">Vos évènements</div>
-          <p class="atel-desc">EVJF, mariage, baby-shower ou cohésion — donnez du relief à votre évènement.</p>
-          <span class="atag"><i data-lucide="calendar" style="width:10px;height:10px"></i> Sur réservation</span>
         </div>
       </div>
     </div>
@@ -1193,7 +1153,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
     </ul></div>
     <div><div class="ft-col-t">Ateliers</div><ul class="ft-links">
       <li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li>
-      <li><a onclick="go('ateliers')"><i data-lucide="users" style="width:12px;height:12px"></i>Évènements</a></li>
+      <li><a onclick="go('ateliers')"><i data-lucide="cake" style="width:12px;height:12px"></i>Anniversaires</a></li>
       <li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li>
     </ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links">
@@ -1328,7 +1288,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
   <div class="ft-grid">
     <div><div class="ft-logo"><div style="background:white;border-radius:8px;padding:5px 10px;display:inline-flex;align-items:center"><img src="https://idefix.nc/web/image/website/1/logo/IDEFIX?unique=77fce89" alt="IDEFIX" style="height:28px;width:auto;display:block"></div></div><p class="ft-tag">Votre boutique créative à Nouméa depuis plus de 40 ans.</p></div>
     <div><div class="ft-col-t">Boutique</div><ul class="ft-links"><li><a onclick="go('boutique')"><i data-lucide="layout-grid" style="width:12px;height:12px"></i>Catégories</a></li><li><a><i data-lucide="sparkles" style="width:12px;height:12px"></i>Nouveautés</a></li><li><a><i data-lucide="briefcase" style="width:12px;height:12px"></i>Compte pro</a></li></ul></div>
-    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a onclick="go('ateliers')"><i data-lucide="users" style="width:12px;height:12px"></i>Évènements</a></li><li><a><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
+    <div><div class="ft-col-t">Ateliers</div><ul class="ft-links"><li><a onclick="go('ateliers')"><i data-lucide="calendar" style="width:12px;height:12px"></i>Programme</a></li><li><a onclick="go('ateliers')"><i data-lucide="cake" style="width:12px;height:12px"></i>Anniversaires</a></li><li><a onclick="toast('Réservation !')"><i data-lucide="clock" style="width:12px;height:12px"></i>Réserver</a></li></ul></div>
     <div><div class="ft-col-t">Infos</div><ul class="ft-links"><li><a onclick="go('apropos')"><i data-lucide="info" style="width:12px;height:12px"></i>À propos</a></li><li><a href="mailto:commercial@idefix.nc"><i data-lucide="mail" style="width:12px;height:12px"></i>Contact</a></li><li><a href="https://idefix.nc/cgv" target="_blank"><i data-lucide="file-text" style="width:12px;height:12px"></i>CGV</a></li><li><a onclick="go('mentions')"><i data-lucide="shield" style="width:12px;height:12px"></i>Mentions légales</a></li></ul></div>
     <div><div class="ft-col-t">Horaires</div>
       <div style="font-size:12px;color:rgba(255,255,255,.48);display:flex;flex-direction:column;gap:7px;margin-top:2px">
@@ -1347,14 +1307,14 @@ footer{background:var(--ink);padding:52px 80px 26px}
 <div class="page" id="p-ateliers">
 <div class="strip bl"><div class="strip-track">
   <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
-  <span class="strip-item">Privatisation pour évènements</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Privatisation pour anniversaires</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="paintbrush" style="width:12px;height:12px"></i> Ateliers tous niveaux · Enfants & adultes</span><span class="strip-item strip-sep">·</span>
-  <span class="strip-item">Privatisation pour évènements</span><span class="strip-item strip-sep">·</span>
+  <span class="strip-item">Privatisation pour anniversaires</span><span class="strip-item strip-sep">·</span>
   <span class="strip-item"><i data-lucide="calendar" style="width:12px;height:12px"></i> Sur réservation</span><span class="strip-item strip-sep">·</span>
 </div></div>
 <div class="ph b"><div class="ph-inner">
-  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar b"></div><span class="etxt b">Ateliers & Évènements</span></div>
+  <div class="sec-eye" style="margin-bottom:10px"><div class="ebar b"></div><span class="etxt b">Ateliers créatifs</span></div>
   <h1 class="ph-title">Apprenez, créez, <em class="b">partagez</em></h1>
   <p class="ph-desc">Artiste chevronné ou débutant enthousiaste ? Tous les niveaux bienvenus !</p>
 </div></div>
@@ -1416,18 +1376,6 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <div class="afc-name">Ton anniversaire avec Idéfix</div>
         <p class="afc-desc">Privatise la boutique pour ton anniversaire ou invite nos animatrices sur le lieu de ton choix. Une fête créative inoubliable !</p>
         <div class="afc-ft"><span class="afc-price" style="color:var(--rose)">Sur devis</span><button class="btn-res r" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
-      </div>
-    </div>
-    <div class="afc rv d4">
-      <div class="afc-vis" style="position:relative">
-        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Vos événements">
-        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(228,46,95,0.4) 0%,rgba(240,157,184,0.1) 70%)"></div>
-      </div>
-      <div class="afc-body">
-        <div class="afc-tags"><span class="tag b"><i data-lucide="key" style="width:9px;height:9px"></i> Privatisation</span><span class="tag r">EVJF · Baby-shower</span></div>
-        <div class="afc-name">Vos évènements</div>
-        <p class="afc-desc">EVJF, mariage, baby-shower ou activité de cohésion — donnez du relief à votre évènement autour d'un atelier créatif.</p>
-        <div class="afc-ft"><span class="afc-price" style="color:var(--bleu)">Sur devis</span><button class="btn-res" onclick="toast('Demande envoyée !')"><i data-lucide="mail" style="width:13px;height:13px"></i> Demander un devis</button></div>
       </div>
     </div>
     <div class="afc rv d5">
