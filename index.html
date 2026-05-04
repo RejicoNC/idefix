@@ -683,6 +683,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 .bubbles-age.on{display:flex}
 .age-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%}
 .bbl-age{border-radius:22px;overflow:hidden;cursor:pointer;position:relative;
+  display:flex;flex-direction:column;
   outline:2px solid transparent;outline-offset:0;
   transition:transform .45s var(--spring),box-shadow .45s var(--spring),outline-color .2s}
 .bbl-age:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,.28)!important;outline-color:rgba(255,255,255,.35)}
@@ -707,7 +708,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
 .bbl-age.age-anim-enter{animation:ageEnter .5s var(--spring) both}
 .bbl-age.age-anim-exit{animation:ageExit .25s var(--ease) both}
 .bbl-age-vis{height:120px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.bbl-age-body{padding:16px 20px 20px;position:relative;overflow:hidden}
+.bbl-age-body{padding:16px 20px 20px;position:relative;overflow:hidden;flex:1}
 .bbl-age-body::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;
   border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
 .bbl-age-badge{display:inline-flex;align-items:center;
