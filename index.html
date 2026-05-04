@@ -621,6 +621,44 @@ footer{background:var(--ink);padding:52px 80px 26px}
   .cat-grid{gap:8px}
   .bubbles{gap:9px}
 }
+
+/* ── BULLES ÂGE ATELIERS ─────────────────────── */
+.bubbles-age{display:none;flex-direction:column;align-items:center;max-width:1280px;margin:0 auto;width:100%}
+.bubbles-age.on{display:flex}
+.age-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%}
+.bbl-age{border-radius:22px;overflow:hidden;cursor:pointer;position:relative;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.bbl-age:hover{transform:translateY(-6px) scale(1.01)}
+.bbl-age-vis{height:120px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.bbl-age-body{padding:16px 20px 20px;position:relative;overflow:hidden}
+.bbl-age-body::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;
+  border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.bbl-age-badge{display:inline-flex;align-items:center;
+  background:rgba(255,255,255,.2);color:rgba(255,255,255,.9);
+  font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-bottom:8px}
+.bbl-age-title{font-family:'DM Serif Display',serif;font-size:20px;line-height:1.15;color:var(--wh);margin-bottom:5px}
+.bbl-age-title em{font-style:italic}
+.bbl-age-sub{font-size:11px;color:rgba(255,255,255,.7);line-height:1.5}
+.bbl-back{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;
+  color:var(--ink-m);background:var(--sand);padding:8px 16px;border-radius:20px;
+  border:none;cursor:pointer;margin-bottom:22px;transition:background .2s,color .2s;align-self:flex-start}
+.bbl-back:hover{background:var(--bord);color:var(--ink)}
+@media(max-width:900px){.age-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .bbl-age-vis{height:90px}
+  .bbl-age-body{padding:12px 16px 16px}
+  .bbl-age-title{font-size:17px}
+}
+
+/* ── RUPTURE DE STOCK ────────────────────────── */
+.btn-add.out{background:var(--bord)!important;color:var(--ink-l)!important;cursor:not-allowed!important;transform:none!important;gap:5px}
+.pcard-out .pcard-price{color:var(--ink-l);text-decoration:line-through}
+.pcard-out .pcard-vis::after{content:'Rupture de stock'!important;background:rgba(26,23,26,.5)!important;opacity:1!important;pointer-events:none}
+.stock-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;color:var(--ink-l);
+  background:var(--bord-sf);border:1px solid var(--bord);border-radius:20px;
+  padding:3px 10px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -773,7 +811,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
     <h1 class="hero-title">Que cherchez-<em>vous</em>&nbsp;?</h1>
     <p class="hero-sub">Explorez 8 000 références ou réservez un atelier créatif</p>
   </div>
-  <div class="bubbles">
+  <div class="bubbles" id="bubbles-main">
     <!-- BOUTIQUE -->
     <div class="bbl rose rv d2" onclick="go('boutique')">
       <div class="bbl-vis" style="position:relative">
@@ -789,7 +827,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
       </div>
     </div>
     <!-- ATELIERS -->
-    <div class="bbl bleu rv d3" onclick="go('ateliers')">
+    <div class="bbl bleu rv d3" onclick="showAgeBubbles()">
       <div class="bbl-vis" style="position:relative">
         <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=640&h=220&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Atelier créatif">
         <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(184,204,244,0.55),rgba(122,157,224,0.6))"></div>
@@ -803,6 +841,64 @@ footer{background:var(--ink);padding:52px 80px 26px}
       </div>
     </div>
   </div>
+
+  <!-- BULLES ÂGE ATELIERS -->
+  <div class="bubbles-age" id="bubbles-age">
+    <button class="bbl-back" onclick="showMainBubbles()">
+      <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Retour
+    </button>
+    <div class="age-grid">
+      <!-- Mini 6-10 ans -->
+      <div class="bbl-age rv" onclick="go('ateliers')" style="box-shadow:0 8px 36px rgba(255,107,44,.3)">
+        <div class="bbl-age-vis" style="background:linear-gradient(135deg,#FF8C55 0%,#CC4E15 100%);position:relative">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.12" viewBox="0 0 260 120"><circle cx="220" cy="10" r="100" fill="white"/><circle cx="30" cy="110" r="60" fill="white"/></svg>
+          <i data-lucide="star" style="width:34px;height:34px;color:rgba(255,255,255,.92);position:relative;z-index:1"></i>
+        </div>
+        <div class="bbl-age-body" style="background:linear-gradient(135deg,#CC4E15 0%,#A03A0A 100%)">
+          <div class="bbl-age-badge">6 – 10 ans</div>
+          <div class="bbl-age-title">Mini<br><em>créatifs</em></div>
+          <div class="bbl-age-sub">Activités mercredi · Vacances scolaires</div>
+        </div>
+      </div>
+      <!-- Ados 11-17 ans -->
+      <div class="bbl-age rv d1" onclick="go('ateliers')" style="box-shadow:0 8px 36px rgba(30,122,74,.3)">
+        <div class="bbl-age-vis" style="background:linear-gradient(135deg,#5CC98A 0%,#1E7A4A 100%);position:relative">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.12" viewBox="0 0 260 120"><circle cx="30" cy="10" r="100" fill="white"/></svg>
+          <i data-lucide="zap" style="width:34px;height:34px;color:rgba(255,255,255,.92);position:relative;z-index:1"></i>
+        </div>
+        <div class="bbl-age-body" style="background:linear-gradient(135deg,#1E7A4A 0%,#135231 100%)">
+          <div class="bbl-age-badge">11 – 17 ans</div>
+          <div class="bbl-age-title">Ados<br><em>créatifs</em></div>
+          <div class="bbl-age-sub">Bijoux · Crochet · Activités hebdo</div>
+        </div>
+      </div>
+      <!-- Adultes -->
+      <div class="bbl-age rv d2" onclick="go('ateliers')" style="box-shadow:var(--sh-rose)">
+        <div class="bbl-age-vis" style="background:linear-gradient(135deg,#f09db8 0%,#c0194a 100%);position:relative">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.12" viewBox="0 0 260 120"><circle cx="220" cy="110" r="100" fill="white"/></svg>
+          <i data-lucide="gem" style="width:34px;height:34px;color:rgba(255,255,255,.92);position:relative;z-index:1"></i>
+        </div>
+        <div class="bbl-age-body" style="background:linear-gradient(135deg,var(--rose) 0%,var(--rose-dk) 100%)">
+          <div class="bbl-age-badge">Adultes</div>
+          <div class="bbl-age-title">Ateliers<br><em>adultes</em></div>
+          <div class="bbl-age-sub">Bijoux · Broderie · Lithothérapie</div>
+        </div>
+      </div>
+      <!-- Événements -->
+      <div class="bbl-age rv d3" onclick="go('ateliers')" style="box-shadow:0 8px 36px rgba(123,63,190,.3)">
+        <div class="bbl-age-vis" style="background:linear-gradient(135deg,#B07AE0 0%,#6A24B0 100%);position:relative">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.12" viewBox="0 0 260 120"><circle cx="130" cy="-20" r="100" fill="white"/></svg>
+          <i data-lucide="party-popper" style="width:34px;height:34px;color:rgba(255,255,255,.92);position:relative;z-index:1"></i>
+        </div>
+        <div class="bbl-age-body" style="background:linear-gradient(135deg,#7B3FBE 0%,#4A1A82 100%)">
+          <div class="bbl-age-badge">Évènements</div>
+          <div class="bbl-age-title">Votre<br><em>évènement</em></div>
+          <div class="bbl-age-sub">EVJF · Anniversaire · Baby-shower</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="text-align:center;margin-top:20px" class="rv d4">
     <div class="dlv-badge"><i data-lucide="truck" style="width:14px;height:14px"></i> Livraison gratuite dès 6 000 F CFP — Grande Terre &amp; Îles</div>
   </div>
@@ -1123,14 +1219,15 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <div class="pcard-ft"><span class="pcard-price">8 500 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
       </div>
     </div>
-    <div class="pcard" onclick="addCart('Pierre & minéral')">
+    <div class="pcard pcard-out">
       <div class="pcard-vis" style="position:relative">
         <img src="https://images.unsplash.com/photo-1515940175183-6798529cb860?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Pierre et minéral brut">
       </div>
       <div class="pcard-body">
+        <div class="stock-badge"><i data-lucide="x-circle" style="width:10px;height:10px"></i> Rupture de stock</div>
         <div class="pcard-name">Pierre & minéral brut</div>
         <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Pierres & Minéraux</div>
-        <div class="pcard-ft"><span class="pcard-price">650 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+        <div class="pcard-ft"><span class="pcard-price">650 F</span><button class="btn-add out" disabled>Rupture</button></div>
       </div>
     </div>
     <div class="pcard" onclick="addCart('Kit déco anniversaire')">
@@ -1143,14 +1240,15 @@ footer{background:var(--ink);padding:52px 80px 26px}
         <div class="pcard-ft"><span class="pcard-price">1 800 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
       </div>
     </div>
-    <div class="pcard" onclick="addCart('Kit peinture acrylique')">
+    <div class="pcard pcard-out">
       <div class="pcard-vis" style="position:relative">
         <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop&q=80" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="Kit peinture acrylique">
       </div>
       <div class="pcard-body">
+        <div class="stock-badge"><i data-lucide="x-circle" style="width:10px;height:10px"></i> Rupture de stock</div>
         <div class="pcard-name">Kit peinture acrylique</div>
         <div class="pcard-cat"><i data-lucide="tag" style="width:10px;height:10px;color:var(--ink-l)"></i>Peinture & Couleurs</div>
-        <div class="pcard-ft"><span class="pcard-price">3 200 F</span><button class="btn-add"><i data-lucide="plus" style="width:12px;height:12px"></i>Panier</button></div>
+        <div class="pcard-ft"><span class="pcard-price">3 200 F</span><button class="btn-add out" disabled>Rupture</button></div>
       </div>
     </div>
   </div>
@@ -1415,6 +1513,19 @@ footer{background:var(--ink);padding:52px 80px 26px}
 </footer>
 </div>
 <script>
+
+// ── BULLES ÂGE ───────────────────────────────────────────────────
+function showAgeBubbles(){
+  document.getElementById('bubbles-main').style.display='none';
+  const ba=document.getElementById('bubbles-age');
+  ba.classList.add('on');
+  ba.querySelectorAll('.rv').forEach(el=>{el.classList.remove('on');setTimeout(()=>obs.observe(el),60)});
+  lucide.createIcons();
+}
+function showMainBubbles(){
+  document.getElementById('bubbles-main').style.display='';
+  document.getElementById('bubbles-age').classList.remove('on');
+}
 
 // ── NAV SCROLL ───────────────────────────────────────────────────
 window.addEventListener('scroll',()=>{
