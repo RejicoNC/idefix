@@ -74,6 +74,8 @@ i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;fle
   transform:translateY(-8px) scale(.97);transform-origin:top left;
   transition:opacity .18s var(--ease),transform .18s var(--ease)}
 .nav-links>li:hover .mega{opacity:1;pointer-events:all;transform:none}
+/* pont invisible qui couvre le gap de 8px entre le lien et le dropdown */
+.mega::before{content:'';position:absolute;top:-8px;left:0;right:0;height:8px}
 .mega.c2{grid-template-columns:1fr 1fr;width:350px}
 .mi{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
   cursor:pointer;transition:background .15s}
