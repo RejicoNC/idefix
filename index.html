@@ -444,6 +444,26 @@ i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;fle
 .fd{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--bord);
   flex-shrink:0;transition:background .15s,border-color .15s}
 .fo.on .fd{background:var(--rose);border-color:var(--rose)}
+
+/* ── FILTRE PRIX SLIDER ──────────────────────── */
+.price-filter{padding:4px 0 2px}
+.pf-label{font-size:12px;color:var(--ink-m);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.pf-val{font-size:13px;font-weight:700;color:var(--rose);margin-left:2px}
+.pf-range{-webkit-appearance:none;appearance:none;width:100%;height:4px;
+  border-radius:4px;outline:none;cursor:pointer;
+  background:linear-gradient(to right,var(--rose) 0%,var(--rose) var(--pct,50%),var(--bord) var(--pct,50%),var(--bord) 100%);
+  transition:background .1s}
+.pf-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;
+  border-radius:50%;background:var(--rose);border:2px solid #fff;
+  box-shadow:0 1px 6px rgba(228,46,95,.4);cursor:pointer;
+  transition:transform .15s var(--spring)}
+.pf-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+  background:var(--rose);border:2px solid #fff;
+  box-shadow:0 1px 6px rgba(228,46,95,.4);cursor:pointer}
+.pf-range:active::-webkit-slider-thumb{transform:scale(1.25)}
+.pf-bounds{display:flex;justify-content:space-between;font-size:10px;
+  color:var(--ink-l);margin-top:6px}
+
 .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .pcard{background:var(--wh);border:1px solid var(--bord-sf);border-radius:16px;
   overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s}
@@ -655,6 +675,7 @@ footer{background:var(--ink);padding:52px 80px 26px}
     background:var(--offwh);border:1px solid var(--bord);color:var(--ink-m)}
   .fo.on{background:var(--rose-sf);color:var(--rose);border-color:transparent}
   .fo .fd{display:none}
+  .price-filter{display:none}
   .prod-grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .atel-full-grid{grid-template-columns:1fr;gap:14px}
   .afc-vis{height:180px}
@@ -1226,10 +1247,14 @@ footer{background:var(--ink);padding:52px 80px 26px}
       <button class="fo" onclick="setF(this,'Outillage')"><div class="fd"></div>Outillage Proxxon</button>
       <button class="fo" onclick="setF(this,'ZD')"><div class="fd"></div>Zéro Déchet NC</button>
     </div>
-    <div class="fg"><div class="fg-title">Prix</div>
-      <button class="fo" onclick="setF(this,'Moins de 500 F')"><div class="fd"></div>Moins de 500 F</button>
-      <button class="fo" onclick="setF(this,'500 – 2 000 F')"><div class="fd"></div>500 – 2 000 F</button>
-      <button class="fo" onclick="setF(this,'Plus de 2 000 F')"><div class="fd"></div>Plus de 2 000 F</button>
+    <div class="fg">
+      <div class="fg-title">Prix</div>
+      <div class="price-filter">
+        <div class="pf-label">Inférieur à : <span class="pf-val" id="pf-display">10 000 F</span></div>
+        <input type="range" id="pf-range" class="pf-range" min="500" max="20000" step="500" value="10000"
+          oninput="updatePriceFilter(this.value)">
+        <div class="pf-bounds"><span>500 F</span><span>20 000 F</span></div>
+      </div>
     </div>
   </div>
   <div class="prod-grid">
@@ -1678,6 +1703,22 @@ function setF(el,name){
   el.classList.add('on');
   toast('Filtre appliqué : '+name);
 }
+
+// ── FILTRE PRIX SLIDER ────────────────────────────────────────────
+function updatePriceFilter(val){
+  const v=parseInt(val);
+  const min=500,max=20000;
+  const pct=((v-min)/(max-min)*100).toFixed(1);
+  const el=document.getElementById('pf-range');
+  el.style.setProperty('--pct',pct+'%');
+  document.getElementById('pf-display').textContent=v.toLocaleString('fr-FR')+' F';
+  toast('Prix : inférieur à '+v.toLocaleString('fr-FR')+' F CFP');
+}
+// init au chargement
+document.addEventListener('DOMContentLoaded',()=>{
+  const r=document.getElementById('pf-range');
+  if(r) updatePriceFilter(r.value);
+});
 
 // ── TOAST ─────────────────────────────────────────────────────────
 let tt;
