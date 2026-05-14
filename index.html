@@ -760,6 +760,91 @@ footer{background:var(--ink);padding:52px 80px 26px}
   letter-spacing:.8px;text-transform:uppercase;color:var(--ink-l);
   background:var(--bord-sf);border:1px solid var(--bord);border-radius:20px;
   padding:3px 10px;margin-bottom:6px}
+
+/* ── STATS BAR ───────────────────────────────── */
+.stats-bar{background:var(--sand);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord);padding:32px 80px}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:1280px;margin:0 auto;gap:0}
+.stat-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:14px 24px;gap:4px}
+.stat-num{font-family:'DM Serif Display',serif;font-size:clamp(28px,3.5vw,44px);
+  color:var(--ink);line-height:1;display:flex;align-items:baseline;gap:3px}
+.stat-num span{font-size:.6em;color:var(--rose)}
+.stat-lbl{font-size:12px;color:var(--ink-m);font-weight:500;letter-spacing:.2px}
+.stat-sep{width:1px;background:var(--bord);margin:16px 0;align-self:stretch}
+@media(max-width:768px){
+  .stats-bar{padding:20px 16px}
+  .stats-inner{grid-template-columns:repeat(2,1fr);gap:0}
+  .stat-sep:nth-child(6){display:none}
+  .stat-item{padding:14px 10px}
+}
+
+/* ── FEATURED PRODUCTS ───────────────────────── */
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:1100px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.feat-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+
+/* ── TEMOIGNAGES ─────────────────────────────── */
+.testi-sec{background:var(--bleu-xs);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.testi-card{background:var(--wh);border:1px solid var(--bord);border-radius:18px;
+  padding:26px 28px;display:flex;flex-direction:column;gap:14px;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.testi-stars{display:flex;gap:3px;color:#F4A91A}
+.testi-text{font-size:14px;color:var(--ink-m);line-height:1.7;flex:1;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:11px;padding-top:12px;
+  border-top:1px solid var(--bord-sf)}
+.testi-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:15px;color:var(--wh)}
+.testi-name{font-size:13px;font-weight:700;color:var(--ink)}
+.testi-role{font-size:11px;color:var(--ink-l)}
+@media(max-width:1100px){.testi-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.testi-grid{grid-template-columns:1fr}}
+
+/* ── NEWSLETTER ──────────────────────────────── */
+.nl-sec{background:linear-gradient(135deg,var(--bleu) 0%,var(--bleu-dk) 100%);
+  padding:62px 80px;position:relative;overflow:hidden}
+.nl-sec::before{content:'';position:absolute;top:-80px;right:-60px;width:380px;height:380px;
+  border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.nl-inner{max-width:620px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.nl-eye{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:10px}
+.nl-title{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,34px);
+  color:var(--wh);line-height:1.2;margin-bottom:10px}
+.nl-desc{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:26px;line-height:1.6}
+.nl-form{display:flex;gap:8px;max-width:480px;margin:0 auto}
+.nl-input{flex:1;height:46px;border-radius:10px;border:1.5px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1);color:var(--wh);font-family:'DM Sans',sans-serif;
+  font-size:14px;padding:0 16px;outline:none;
+  transition:border-color .2s,background .2s}
+.nl-input::placeholder{color:rgba(255,255,255,.4)}
+.nl-input:focus{border-color:rgba(255,255,255,.65);background:rgba(255,255,255,.15)}
+.nl-btn{height:46px;background:var(--wh);color:var(--bleu);font-size:14px;font-weight:700;
+  padding:0 22px;border-radius:10px;border:none;cursor:pointer;white-space:nowrap;
+  display:flex;align-items:center;gap:7px;flex-shrink:0;
+  transition:transform .2s,box-shadow .2s}
+.nl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.nl-hint{font-size:11px;color:rgba(255,255,255,.35);margin-top:12px}
+@media(max-width:768px){
+  .nl-sec{padding:44px 16px}
+  .nl-form{flex-direction:column}
+  .nl-btn{width:100%;justify-content:center}
+}
+
+/* ── WHY US ──────────────────────────────────── */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{background:var(--wh);border:1px solid var(--bord);border-radius:18px;
+  padding:28px 26px;display:flex;flex-direction:column;gap:14px;
+  transition:transform .3s var(--ease),box-shadow .3s}
+.why-card:hover{transform:translateY(-5px);box-shadow:var(--sh-md)}
+.why-ic{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-ic.r{background:var(--rose-sf);color:var(--rose)}
+.why-ic.b{background:var(--bleu-sf);color:var(--bleu)}
+.why-title{font-family:'DM Serif Display',serif;font-size:17px;color:var(--ink)}
+.why-desc{font-size:13px;color:var(--ink-m);line-height:1.65}
+@media(max-width:1100px){.why-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.why-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -983,6 +1068,58 @@ footer{background:var(--ink);padding:52px 80px 26px}
   </div>
 </div>
 
+<!-- STATS -->
+<div class="stats-bar rv">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">40<span>+</span></div>
+      <div class="stat-lbl">ans d'existence</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-num">8 000<span>+</span></div>
+      <div class="stat-lbl">références en boutique</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-num">50<span>+</span></div>
+      <div class="stat-lbl">ateliers créatifs par an</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-num">1</div>
+      <div class="stat-lbl">boutique unique à Nouméa</div>
+    </div>
+  </div>
+</div>
+
+<!-- POURQUOI IDEFIX -->
+<div class="sec">
+  <div class="sec-head rv">
+    <div>
+      <div class="sec-eye"><div class="ebar r"></div><span class="etxt r">Pourquoi Idéfix ?</span></div>
+      <h2 class="sec-title">La créativité à portée de main</h2>
+    </div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card rv d1">
+      <div class="why-ic r"><i data-lucide="package" style="width:22px;height:22px"></i></div>
+      <div class="why-title">8 000 références disponibles</div>
+      <p class="why-desc">Mercerie, bijoux, peinture, résine, pandanus local… tout ce qu'il faut pour donner vie à vos idées, en stock à Nouméa.</p>
+    </div>
+    <div class="why-card rv d2">
+      <div class="why-ic b"><i data-lucide="paintbrush" style="width:22px;height:22px"></i></div>
+      <div class="why-title">Des ateliers pour tous les niveaux</div>
+      <p class="why-desc">Débutant ou confirmé, adulte ou enfant — nos animatrices vous accompagnent dans la création en petit groupe et à votre rythme.</p>
+    </div>
+    <div class="why-card rv d3">
+      <div class="why-ic r"><i data-lucide="leaf" style="width:22px;height:22px"></i></div>
+      <div class="why-title">Engagement Zéro Déchet NC</div>
+      <p class="why-desc">Signataires de la charte Zéro Déchet Nouvelle-Calédonie, nous sélectionnons des matières responsables et locales quand c'est possible.</p>
+    </div>
+  </div>
+</div>
+
 <!-- CATÉGORIES -->
 <div class="sec">
   <div class="sec-head rv">
@@ -1066,6 +1203,71 @@ footer{background:var(--ink);padding:52px 80px 26px}
   </div>
 </div>
 
+<!-- PRODUITS EN VEDETTE -->
+<div class="sec">
+  <div class="sec-head rv">
+    <div>
+      <div class="sec-eye"><div class="ebar r"></div><span class="etxt r">Coups de cœur</span></div>
+      <h2 class="sec-title">Nos sélections du moment</h2>
+    </div>
+    <button class="see-all" onclick="go('boutique')">Tout voir <i data-lucide="arrow-right" style="width:14px;height:14px"></i></button>
+  </div>
+  <div class="feat-grid">
+    <div class="pcard rv d1" onclick="go('boutique')">
+      <div class="pcard-vis" style="background:linear-gradient(135deg,#fce4ec,#f48fb1)">
+        <i data-lucide="gem" style="width:44px;height:44px;color:var(--rose);opacity:.7"></i>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-cat"><i data-lucide="gem" style="width:10px;height:10px"></i> Bijoux & Perles</div>
+        <div class="pcard-name">Kit débutant bijoux INOX</div>
+        <div class="pcard-ft">
+          <span class="pcard-price">1 850 F</span>
+          <button class="btn-add" onclick="event.stopPropagation();addCart('Kit débutant bijoux INOX')"><i data-lucide="plus" style="width:12px;height:12px"></i> Ajouter</button>
+        </div>
+      </div>
+    </div>
+    <div class="pcard rv d2" onclick="go('boutique')">
+      <div class="pcard-vis" style="background:linear-gradient(135deg,#e3f2fd,#90caf9)">
+        <i data-lucide="scissors" style="width:44px;height:44px;color:var(--bleu);opacity:.7"></i>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-cat"><i data-lucide="scissors" style="width:10px;height:10px"></i> Mercerie</div>
+        <div class="pcard-name">Coffret broderie DMC initiation</div>
+        <div class="pcard-ft">
+          <span class="pcard-price">2 200 F</span>
+          <button class="btn-add" onclick="event.stopPropagation();addCart('Coffret broderie DMC')"><i data-lucide="plus" style="width:12px;height:12px"></i> Ajouter</button>
+        </div>
+      </div>
+    </div>
+    <div class="pcard rv d3" onclick="go('boutique')">
+      <div class="pcard-vis" style="background:linear-gradient(135deg,#fff8e1,#ffe082)">
+        <i data-lucide="flame" style="width:44px;height:44px;color:#E07B00;opacity:.7"></i>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-cat"><i data-lucide="flame" style="width:10px;height:10px"></i> Bougies & Résine</div>
+        <div class="pcard-name">Kit bougie soja naturelle</div>
+        <div class="pcard-ft">
+          <span class="pcard-price">3 400 F</span>
+          <button class="btn-add" onclick="event.stopPropagation();addCart('Kit bougie soja')"><i data-lucide="plus" style="width:12px;height:12px"></i> Ajouter</button>
+        </div>
+      </div>
+    </div>
+    <div class="pcard rv d4" onclick="go('boutique')">
+      <div class="pcard-vis" style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7)">
+        <i data-lucide="leaf" style="width:44px;height:44px;color:#2E7D32;opacity:.7"></i>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-cat"><i data-lucide="leaf" style="width:10px;height:10px"></i> Pandanus & Local NC</div>
+        <div class="pcard-name">Rafia naturel tressage NC</div>
+        <div class="pcard-ft">
+          <span class="pcard-price">980 F</span>
+          <button class="btn-add" onclick="event.stopPropagation();addCart('Rafia naturel NC')"><i data-lucide="plus" style="width:12px;height:12px"></i> Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ATELIERS APERÇU -->
 <div class="atel-sec">
   <div class="sec" style="padding-top:52px;padding-bottom:52px">
@@ -1127,6 +1329,71 @@ footer{background:var(--ink);padding:52px 80px 26px}
   </div>
 </div>
 
+<!-- TEMOIGNAGES -->
+<div class="testi-sec">
+  <div class="sec" style="padding-top:52px;padding-bottom:52px">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-eye"><div class="ebar b"></div><span class="etxt b">Avis clients</span></div>
+        <h2 class="sec-title">Ce que disent nos créatifs</h2>
+      </div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card rv d1">
+        <div class="testi-stars">
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+        </div>
+        <p class="testi-text">« Un vrai paradis pour les passionnées de création ! Je viens régulièrement pour les ateliers broderie et le choix de matières est incroyable. L'équipe est toujours de bon conseil. »</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--rose)">M</div>
+          <div>
+            <div class="testi-name">Marie-Claire T.</div>
+            <div class="testi-role">Cliente depuis 2019</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card rv d2">
+        <div class="testi-stars">
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+        </div>
+        <p class="testi-text">« Mon fils adore les ateliers du mercredi. Chaque semaine une nouvelle activité, les animatrices sont super patientes. L'atelier anniversaire qu'on a organisé était un succès total ! »</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--bleu)">S</div>
+          <div>
+            <div class="testi-name">Sandra K.</div>
+            <div class="testi-role">Maman de 2 enfants</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card rv d3">
+        <div class="testi-stars">
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+          <i data-lucide="star" style="width:14px;height:14px;fill:currentColor"></i>
+        </div>
+        <p class="testi-text">« En tant qu'artisane, le compte pro m'a permis d'accéder à des tarifs intéressants sur les fournitures. La livraison est rapide et le service client très réactif. Je recommande ! »</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#FF8C55,#CC4E15)">A</div>
+          <div>
+            <div class="testi-name">Agnès P.</div>
+            <div class="testi-role">Artisane bijoutière, Nouméa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- INFOS -->
 <div class="sec rv">
   <div class="sec-head">
@@ -1169,6 +1436,22 @@ footer{background:var(--ink);padding:52px 80px 26px}
   <button class="btn-bl" onclick="toast('En savoir plus sur notre engagement !')">
     En savoir plus <i data-lucide="arrow-right" style="width:13px;height:13px"></i>
   </button>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="nl-sec rv">
+  <div class="nl-inner">
+    <p class="nl-eye">✦ RESTEZ INSPIRÉS</p>
+    <h2 class="nl-title">Nouveautés, ateliers &amp; idées créatives</h2>
+    <p class="nl-desc">Recevez chaque mois nos coups de cœur, les nouveaux ateliers, et des inspirations DIY directement dans votre boîte mail.</p>
+    <form class="nl-form" onsubmit="event.preventDefault();toast('Merci ! Vous êtes inscrit à la newsletter 🎨')">
+      <input class="nl-input" type="email" placeholder="votre@email.nc" autocomplete="email">
+      <button class="nl-btn" type="submit">
+        <i data-lucide="send" style="width:14px;height:14px"></i> S'inscrire
+      </button>
+    </form>
+    <p class="nl-hint">Pas de spam. Désabonnement en un clic. Vos données restent en Nouvelle-Calédonie.</p>
+  </div>
 </div>
 
 <!-- FOOTER -->
